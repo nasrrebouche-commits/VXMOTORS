@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VX MOTORS — Contact & Demandes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Bebas+Neue&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       VARIABLES & RESET — Identique à VX MOTORS
+    ============================================================ */
+    :root {
+      --gold:        #C9A84C;
+      --gold-light:  #E8C97A;
+      --gold-dark:   #8B6914;
+      --black:       #080808;
+      --dark:        #111111;
+      --dark2:       #181818;
+      --dark3:       #222222;
+      --gray:        #444444;
+      --gray-light:  #888888;
+      --white:       #F5F0E8;
+      --white-pure:  #FFFFFF;
+      --red:         #C0392B;
+      --green:       #27AE60;
+
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif:   'Cormorant Garamond', serif;
+      --font-body:    'Jost', sans-serif;
+
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-gold: 0 0 30px rgba(201,168,76,0.25);
+      --shadow-deep: 0 20px 60px rgba(0,0,0,0.6);
+      --nav-height: 75px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    img { max-width: 100%; display: block; }
+    a   { color: inherit; text-decoration: none; }
+    ul  { list-style: none; }
+    button { cursor: none; font-family: var(--font-body); border: none; outline: none; }
+
+    /* ============================================================
+       CURSEUR PERSONNALISÉ
+    ============================================================ */
+    #cursor { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; mix-blend-mode: difference; }
+    #cursor-dot {
+      width: 8px; height: 8px; background: var(--gold); border-radius: 50%;
+      position: absolute; transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, opacity 0.2s;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%;
+      position: absolute; transform: translate(-50%, -50%);
+      transition: transform 0.12s ease, width 0.3s, height 0.3s, opacity 0.3s; opacity: 0.6;
+    }
+    body.cursor-hover #cursor-dot { width: 14px; height: 14px; }
+    body.cursor-hover #cursor-ring { width: 56px; height: 56px; opacity: 1; }
+
+    /* ============================================================
+       BARRE DE PROGRESSION
+    ============================================================ */
+    #reading-progress {
+      position: fixed; top: 0; left: 0; z-index: 9998;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+      transition: width 0.1s linear;
+    }
+
+    /* ============================================================
+       LOADER
+    ============================================================ */
+    #loader {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--black);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 24px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-logo {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      letter-spacing: 0.3em; color: var(--gold);
+      animation: loaderPulse 1.5s ease-in-out infinite alternate;
+    }
+    .loader-bar-wrap { width: 200px; height: 1px; background: var(--dark3); position: relative; overflow: hidden; }
+    .loader-bar { position: absolute; left: -100%; top: 0; height: 100%; width: 100%; background: var(--gold); animation: loaderBar 1.8s ease forwards; }
+    .loader-text { font-size: 0.7rem; letter-spacing: 0.4em; color: var(--gray-light); text-transform: uppercase; }
+    @keyframes loaderPulse { from { opacity: 0.5; } to { opacity: 1; } }
+    @keyframes loaderBar { 0%{left:-100%} 100%{left:0%} }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      height: var(--nav-height);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(16px, 4vw, 60px);
+      transition: background var(--transition), backdrop-filter var(--transition), box-shadow var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 rgba(201,168,76,0.2);
+    }
+    .nav-logo { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.25em; color: var(--gold); line-height: 1; }
+    .nav-logo span { color: var(--white); font-size: 0.65em; letter-spacing: 0.5em; display: block; }
+    .nav-links { display: flex; align-items: center; gap: 36px; }
+    .nav-links a {
+      font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--white); opacity: 0.7;
+      transition: opacity var(--transition), color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--gold); transition: width var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--gold); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; padding: 4px; }
+    .nav-hamburger span { display: block; width: 24px; height: 1px; background: var(--white); transition: var(--transition); }
+
+    /* ============================================================
+       HERO CONTACT
+    ============================================================ */
+    .contact-hero {
+      min-height: 52vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding-bottom: 60px;
+      position: relative;
+      overflow: hidden;
+      padding-top: var(--nav-height);
+    }
+    .contact-hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.7) 60%, rgba(8,8,8,1) 100%),
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 70%);
+    }
+    /* Lignes dorées décoratives */
+    .hero-lines {
+      position: absolute; inset: 0; z-index: 1;
+      overflow: hidden; pointer-events: none;
+    }
+    .hero-lines::before {
+      content: '';
+      position: absolute; left: 50%; top: 20%;
+      width: 1px; height: 40%;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      transform: translateX(-50%);
+      animation: linePulse 3s ease-in-out infinite;
+    }
+    .hero-lines::after {
+      content: '';
+      position: absolute; left: 50%; top: 0; bottom: 0; right: 0;
+      border-left: 1px solid rgba(201,168,76,0.08);
+    }
+    @keyframes linePulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+    .contact-hero-content { position: relative; z-index: 2; text-align: center; }
+    .hero-tag {
+      font-size: 0.7rem; letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: 16px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 9rem);
+      letter-spacing: 0.1em; line-height: 0.9;
+      color: var(--white);
+      animation: fadeUp 0.8s 0.5s ease both;
+    }
+    .hero-title em { color: var(--gold); font-style: normal; }
+    .hero-subtitle {
+      font-family: var(--font-serif);
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: var(--gray-light); margin-top: 20px;
+      animation: fadeUp 0.8s 0.7s ease both;
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Bande dorée décorative */
+    .gold-divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+      opacity: 0.4;
+    }
+
+    /* ============================================================
+       LAYOUT PRINCIPAL
+    ============================================================ */
+    .contact-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 80px clamp(16px, 4vw, 60px) 100px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* ============================================================
+       SIDEBAR INFOS
+    ============================================================ */
+    .contact-sidebar { position: sticky; top: calc(var(--nav-height) + 40px); }
+
+    .sidebar-section { margin-bottom: 50px; }
+    .sidebar-label {
+      font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px; display: block;
+    }
+    .sidebar-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3vw, 3rem);
+      letter-spacing: 0.05em; line-height: 1.1;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .sidebar-text {
+      font-family: var(--font-serif);
+      font-size: 1.05rem; color: var(--gray-light); line-height: 1.8;
+    }
+
+    .info-card {
+      background: var(--dark2);
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 24px 28px;
+      margin-bottom: 12px;
+      position: relative;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .info-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--gold); opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .info-card:hover { border-color: rgba(201,168,76,0.4); transform: translateX(4px); }
+    .info-card:hover::before { opacity: 1; }
+
+    .info-card-icon { font-size: 1.3rem; margin-bottom: 8px; }
+    .info-card-label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .info-card-val { font-size: 0.95rem; color: var(--white); font-weight: 400; }
+    .info-card-sub { font-size: 0.8rem; color: var(--gray-light); margin-top: 2px; }
+
+    /* Horaires */
+    .hours-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 20px;
+      margin-top: 16px;
+    }
+    .hours-row { display: contents; }
+    .hours-day { font-size: 0.8rem; color: var(--gray-light); letter-spacing: 0.1em; }
+    .hours-time { font-size: 0.8rem; color: var(--white); font-weight: 400; }
+
+    /* Documents téléchargeables */
+    .docs-section { margin-top: 50px; }
+    .docs-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem; letter-spacing: 0.1em;
+      color: var(--white); margin-bottom: 20px;
+    }
+    .doc-item {
+      background: var(--dark2);
+      border: 1px solid rgba(201,168,76,0.12);
+      padding: 18px 22px;
+      margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .doc-item::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.04), transparent);
+      transform: translateX(-100%); transition: transform 0.5s ease;
+    }
+    .doc-item:hover { background: var(--dark3); border-color: rgba(201,168,76,0.35); }
+    .doc-item:hover::after { transform: translateX(100%); }
+    .doc-info { display: flex; align-items: center; gap: 14px; }
+    .doc-icon {
+      width: 40px; height: 40px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .doc-name { font-size: 0.85rem; color: var(--white); font-weight: 400; letter-spacing: 0.05em; }
+    .doc-size { font-size: 0.7rem; color: var(--gray-light); margin-top: 2px; }
+    .doc-dl {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); display: flex; align-items: center; gap: 6px;
+      flex-shrink: 0;
+      background: none; border: none; padding: 0;
+      font-family: var(--font-body);
+    }
+    .doc-dl svg { width: 14px; height: 14px; stroke: var(--gold); }
+
+    /* ============================================================
+       FORMULAIRE
+    ============================================================ */
+    .form-container {
+      background: var(--dark);
+      border: 1px solid rgba(201,168,76,0.12);
+      padding: clamp(32px, 5vw, 60px);
+      position: relative;
+    }
+    .form-container::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+    }
+
+    .form-section-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem; letter-spacing: 0.15em;
+      color: var(--gold); margin-bottom: 24px; margin-top: 40px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .form-section-title:first-of-type { margin-top: 0; }
+    .form-section-title .sec-num {
+      font-size: 0.75rem; color: var(--black);
+      background: var(--gold); width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-body); font-weight: 600;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 24px;
+      margin-bottom: 0;
+    }
+    .form-grid.full { grid-template-columns: 1fr; }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field.span-2 { grid-column: 1/-1; }
+
+    label {
+      font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); font-weight: 500;
+    }
+    label .required { color: var(--gold-light); margin-left: 3px; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    select,
+    textarea {
+      background: var(--dark2);
+      border: 1px solid rgba(201,168,76,0.2);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9rem; font-weight: 300;
+      padding: 14px 18px;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+      width: 100%;
+      -webkit-appearance: none; appearance: none;
+      border-radius: 0;
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: none;
+    }
+    select option { background: var(--dark2); color: var(--white); }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
+      background: var(--dark3);
+    }
+    input::placeholder, textarea::placeholder { color: var(--gray); }
+
+    textarea { resize: vertical; min-height: 130px; line-height: 1.6; }
+
+    /* Checkbox / Radio styled */
+    .checkbox-group, .radio-group {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;
+    }
+    .check-item, .radio-item {
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer;
+      padding: 10px 16px;
+      background: var(--dark2);
+      border: 1px solid rgba(201,168,76,0.15);
+      transition: border-color var(--transition), background var(--transition);
+      font-size: 0.82rem; color: var(--gray-light);
+      letter-spacing: 0.05em;
+      user-select: none;
+    }
+    .check-item:hover, .radio-item:hover {
+      border-color: rgba(201,168,76,0.4);
+      color: var(--white);
+    }
+    .check-item input, .radio-item input { display: none; }
+    .check-box, .radio-box {
+      width: 16px; height: 16px;
+      border: 1px solid rgba(201,168,76,0.4);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background var(--transition), border-color var(--transition);
+    }
+    .radio-box { border-radius: 50%; }
+    .check-item.selected, .radio-item.selected {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.07);
+      color: var(--white);
+    }
+    .check-item.selected .check-box,
+    .radio-item.selected .radio-box {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+    .check-box::after { content: '✓'; color: var(--black); font-size: 10px; font-weight: 700; display: none; }
+    .check-item.selected .check-box::after { display: block; }
+    .radio-box::after { content: ''; width: 6px; height: 6px; background: var(--black); border-radius: 50%; display: none; }
+    .radio-item.selected .radio-box::after { display: block; }
+
+    /* Budget slider */
+    .slider-wrap { position: relative; padding-top: 12px; }
+    .budget-display {
+      font-family: var(--font-display);
+      font-size: 2rem; letter-spacing: 0.1em;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    input[type="range"] {
+      width: 100%; height: 2px;
+      background: var(--dark3); border: none; padding: 0;
+      -webkit-appearance: none; appearance: none;
+      cursor: none; box-shadow: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(201,168,76,0.5);
+      transition: transform 0.2s;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+    input[type="range"]:focus { box-shadow: none; border: none; }
+    .range-labels {
+      display: flex; justify-content: space-between;
+      font-size: 0.7rem; color: var(--gray-light); margin-top: 8px;
+      letter-spacing: 0.1em;
+    }
+    /* Remplissage track */
+    input[type="range"] { accent-color: var(--gold); }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 1px dashed rgba(201,168,76,0.3);
+      background: var(--dark2);
+      padding: 36px 24px;
+      text-align: center;
+      transition: border-color var(--transition), background var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.04);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+      padding: 0; border: none; background: none;
+    }
+    .upload-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .upload-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem; letter-spacing: 0.1em;
+      color: var(--white); margin-bottom: 6px;
+    }
+    .upload-sub { font-size: 0.78rem; color: var(--gray-light); }
+    .upload-types {
+      margin-top: 10px;
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); opacity: 0.7;
+    }
+    .upload-list {
+      margin-top: 16px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .upload-item {
+      background: var(--dark3);
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem;
+    }
+    .upload-item-name { color: var(--white); }
+    .upload-item-size { color: var(--gray-light); font-size: 0.75rem; }
+    .upload-item-del {
+      color: var(--red); background: none; border: none;
+      font-size: 1rem; opacity: 0.6; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .upload-item-del:hover { opacity: 1; }
+
+    /* Consentement RGPD */
+    .consent-block {
+      background: rgba(201,168,76,0.04);
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 20px 24px;
+      margin-top: 32px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .consent-check-wrap { flex-shrink: 0; margin-top: 2px; }
+    .consent-check {
+      width: 20px; height: 20px;
+      border: 1px solid rgba(201,168,76,0.4);
+      background: transparent;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+    }
+    .consent-check.checked { background: var(--gold); border-color: var(--gold); }
+    .consent-check::after { content: '✓'; color: var(--black); font-size: 12px; font-weight: 700; display: none; }
+    .consent-check.checked::after { display: block; }
+    .consent-text { font-size: 0.8rem; color: var(--gray-light); line-height: 1.6; }
+    .consent-text a { color: var(--gold); text-decoration: underline; }
+
+    /* Bouton principal */
+    .btn-submit {
+      width: 100%;
+      margin-top: 32px;
+      background: var(--gold);
+      color: var(--black);
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 0.25em;
+      padding: 22px 40px;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+    }
+    .btn-submit::before {
+      content: '';
+      position: absolute; left: -100%; top: 0; bottom: 0; width: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn-submit:hover {
+      background: var(--gold-light);
+      box-shadow: var(--shadow-gold);
+      transform: translateY(-2px);
+    }
+    .btn-submit:hover::before { left: 100%; }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit.sending { opacity: 0.7; pointer-events: none; }
+    .btn-arrow { font-size: 1.4rem; }
+
+    /* ============================================================
+       SECTION SUCCÈS
+    ============================================================ */
+    .success-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 800;
+      background: rgba(8,8,8,0.95);
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px; text-align: center;
+      padding: 40px;
+    }
+    .success-overlay.show { display: flex; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .success-icon { font-size: 4rem; animation: bounceIn 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes bounceIn { 0%{transform:scale(0)} 100%{transform:scale(1)} }
+    .success-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: 0.1em; color: var(--gold);
+    }
+    .success-text { font-family: var(--font-serif); font-size: 1.2rem; color: var(--gray-light); max-width: 500px; }
+    .success-ref {
+      font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold); background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3); padding: 10px 24px;
+    }
+    .btn-back-home {
+      margin-top: 16px;
+      background: transparent; border: 1px solid var(--gold);
+      color: var(--gold); font-family: var(--font-display);
+      font-size: 1rem; letter-spacing: 0.25em;
+      padding: 14px 36px;
+      transition: background var(--transition), color var(--transition);
+    }
+    .btn-back-home:hover { background: var(--gold); color: var(--black); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .contact-footer {
+      border-top: 1px solid rgba(201,168,76,0.15);
+      padding: 40px clamp(16px, 4vw, 60px);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+    }
+    .footer-logo { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.25em; color: var(--gold); }
+    .footer-copy { font-size: 0.75rem; color: var(--gray-light); letter-spacing: 0.1em; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-light); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    #toast-container {
+      position: fixed; bottom: 32px; right: 32px; z-index: 9500;
+      display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+    }
+    .toast {
+      background: var(--dark3); border: 1px solid rgba(201,168,76,0.3);
+      color: var(--white); padding: 14px 22px;
+      font-size: 0.85rem; min-width: 220px; max-width: 360px;
+      animation: toastIn 0.35s ease;
+      border-left: 3px solid var(--gold);
+    }
+    .toast.success { border-left-color: var(--green); }
+    .toast.error   { border-left-color: var(--red); }
+    @keyframes toastIn  { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes toastOut { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-10px)} }
+
+    /* ============================================================
+       MAP PLACEHOLDER
+    ============================================================ */
+    .map-section {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 clamp(16px, 4vw, 60px) 80px;
+    }
+    .map-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: 0.1em; color: var(--white);
+      margin-bottom: 32px;
+    }
+    .map-title em { color: var(--gold); font-style: normal; }
+    .map-container {
+      width: 100%; height: 380px;
+      background: var(--dark2);
+      border: 1px solid rgba(201,168,76,0.15);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .map-placeholder {
+      text-align: center;
+      color: var(--gray-light);
+    }
+    .map-placeholder .map-pin { font-size: 3rem; margin-bottom: 16px; animation: pinBounce 2s ease-in-out infinite; }
+    @keyframes pinBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .map-placeholder p { font-size: 1rem; color: var(--white); margin-bottom: 6px; }
+    .map-placeholder span { font-size: 0.8rem; color: var(--gray-light); }
+    .map-grid-overlay {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ============================================================
+       RÉVÉLATION AU SCROLL
+    ============================================================ */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .contact-wrapper { grid-template-columns: 1fr; gap: 50px; }
+      .contact-sidebar { position: static; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.span-2 { grid-column: 1; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .check-item, .radio-item { font-size: 0.75rem; padding: 8px 12px; }
+      .contact-footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- =================== CURSEUR =================== -->
+<div id="cursor">
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+</div>
+<div id="reading-progress"></div>
+
+<!-- =================== LOADER =================== -->
+<div id="loader">
+  <div class="loader-logo">VX MOTORS</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-text">Contact & Demandes</div>
+</div>
+
+<!-- =================== NAVBAR =================== -->
+<nav id="navbar">
+  <a href="VX_MOTORS.html" class="nav-logo">VX Nasr<span>MOTORS</span></a>
+  <ul class="nav-links">
+    <li><a href="VX_MOTORS.html">Accueil</a></li>
+    <li><a href="VX_MOTORS.html#collection">Collection</a></li>
+    <li><a href="VX_MOTORS.html#services">Services</a></li>
+    <li><a href="VX_MOTORS.html#loyalty">Fidélité</a></li>
+    <li><a href="VX_MOTORS_CONTACT.html" class="active">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile nav -->
+<div id="mobile-nav" style="display:none;position:fixed;inset:0;z-index:490;background:rgba(8,8,8,0.97);backdrop-filter:blur(20px);align-items:center;justify-content:center;flex-direction:column;gap:32px;">
+  <a href="VX_MOTORS.html" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:0.3em;color:var(--white);">ACCUEIL</a>
+  <a href="VX_MOTORS.html#collection" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:0.3em;color:var(--white);">COLLECTION</a>
+  <a href="VX_MOTORS.html#services" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:0.3em;color:var(--white);">SERVICES</a>
+  <a href="VX_MOTORS_CONTACT.html" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:0.3em;color:var(--gold);">CONTACT</a>
+</div>
+
+<!-- =================== HERO =================== -->
+<section class="contact-hero">
+  <div class="contact-hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="contact-hero-content">
+    <span class="hero-tag">VX Motors — Service Client d'Exception</span>
+    <h1 class="hero-title">NOUS <em>CONTACTER</em></h1>
+    <p class="hero-subtitle">Notre équipe de conseillers est à votre disposition<br>pour tout projet d'acquisition ou de service</p>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- =================== CONTENU PRINCIPAL =================== -->
+<div class="contact-wrapper">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="contact-sidebar">
+
+    <div class="sidebar-section reveal">
+      <span class="sidebar-label">Notre Showroom</span>
+      <h2 class="sidebar-title">Venez Nous Rencontrer</h2>
+      <p class="sidebar-text">Une équipe de conseillers spécialisés vous accueille dans notre espace d'exposition dédié au luxe et à la performance.</p>
+    </div>
+
+    <div class="reveal reveal-delay-1">
+      <div class="info-card">
+        <div class="info-card-icon">📍</div>
+        <div class="info-card-label">Adresse</div>
+        <div class="info-card-val">Zone d'Activité Premium, Alger</div>
+        <div class="info-card-sub">Hay El Badr, Route Nationale N°5</div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">📞</div>
+        <div class="info-card-label">Téléphone</div>
+        <div class="info-card-val">+213 23 45 67 89</div>
+        <div class="info-card-sub">WhatsApp : +213 55 987 65 43</div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">✉️</div>
+        <div class="info-card-label">Email</div>
+        <div class="info-card-val">contact@vxmotors.dz</div>
+        <div class="info-card-sub">Réponse sous 24h ouvrées</div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">🕐</div>
+        <div class="info-card-label">Horaires d'Ouverture</div>
+        <div class="hours-grid">
+          <span class="hours-day">Dim – Jeu</span><span class="hours-time">09h00 – 18h00</span>
+          <span class="hours-day">Vendredi</span><span class="hours-time">Fermé</span>
+          <span class="hours-day">Samedi</span><span class="hours-time">09h00 – 13h00</span>
+          <span class="hours-day">Jours fériés</span><span class="hours-time">Sur RDV</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Documents téléchargeables -->
+    <div class="docs-section reveal reveal-delay-2">
+      <h3 class="docs-title">Documents <span style="color:var(--gold)">à Télécharger</span></h3>
+
+      <div class="doc-item" onclick="simulateDownload('Catalogue VX Motors 2025')">
+        <div class="doc-info">
+          <div class="doc-icon">📘</div>
+          <div>
+            <div class="doc-name">Catalogue VX Motors 2025</div>
+            <div class="doc-size">PDF — 12.4 Mo</div>
+          </div>
+        </div>
+        <button class="doc-dl">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M3 19h18"/></svg>
+          PDF
+        </button>
+      </div>
+
+      <div class="doc-item" onclick="simulateDownload('Guide Financement VX')">
+        <div class="doc-info">
+          <div class="doc-icon">💰</div>
+          <div>
+            <div class="doc-name">Guide Financement & Leasing</div>
+            <div class="doc-size">PDF — 3.2 Mo</div>
+          </div>
+        </div>
+        <button class="doc-dl">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M3 19h19"/></svg>
+          PDF
+        </button>
+      </div>
+
+      <div class="doc-item" onclick="simulateDownload('Brochure Services Premium')">
+        <div class="doc-info">
+          <div class="doc-icon">🛠️</div>
+          <div>
+            <div class="doc-name">Brochure Services Premium</div>
+            <div class="doc-size">PDF — 5.8 Mo</div>
+          </div>
+        </div>
+        <button class="doc-dl">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M3 19h18"/></svg>
+          PDF
+        </button>
+      </div>
+
+      <div class="doc-item" onclick="simulateDownload('Tarifs & Options 2025')">
+        <div class="doc-info">
+          <div class="doc-icon">📋</div>
+          <div>
+            <div class="doc-name">Grille Tarifaire & Options</div>
+            <div class="doc-size">PDF — 1.9 Mo</div>
+          </div>
+        </div>
+        <button class="doc-dl">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M3 19h18"/></svg>
+          PDF
+        </button>
+      </div>
+
+      <div class="doc-item" onclick="simulateDownload('Formulaire Reprise Véhicule')">
+        <div class="doc-info">
+          <div class="doc-icon">🔄</div>
+          <div>
+            <div class="doc-name">Formulaire de Reprise</div>
+            <div class="doc-size">DOC — 0.4 Mo</div>
+          </div>
+        </div>
+        <button class="doc-dl">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M3 19h18"/></svg>
+          DOC
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ===== FORMULAIRE ===== -->
+  <main>
+    <div class="form-container reveal">
+
+      <!-- Section 1 : Informations personnelles -->
+      <div class="form-section-title">
+        <span class="sec-num">1</span>
+        INFORMATIONS PERSONNELLES
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="civilite">Civilité <span class="required">*</span></label>
+          <select id="civilite" required>
+            <option value="" disabled selected>Sélectionnez</option>
+            <option>M.</option>
+            <option>Mme.</option>
+            <option>Dr.</option>
+            <option>Pr.</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Type de client <span class="required">*</span></label>
+          <select id="client-type" required>
+            <option value="" disabled selected>Sélectionnez</option>
+            <option>Particulier</option>
+            <option>Entreprise / Société</option>
+            <option>Professionnel Revendeur</option>
+            <option>Ambassade / Institution</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="prenom">Prénom <span class="required">*</span></label>
+          <input type="text" id="prenom" placeholder="Votre prénom" required />
+        </div>
+        <div class="field">
+          <label for="nom">Nom <span class="required">*</span></label>
+          <input type="text" id="nom" placeholder="Votre nom" required />
+        </div>
+        <div class="field">
+          <label for="email">Email <span class="required">*</span></label>
+          <input type="email" id="email" placeholder="votre@email.com" required />
+        </div>
+        <div class="field">
+          <label for="tel">Téléphone <span class="required">*</span></label>
+          <input type="tel" id="tel" placeholder="+213 XX XXX XX XX" required />
+        </div>
+        <div class="field">
+          <label for="wilaya">Wilaya</label>
+          <select id="wilaya">
+            <option value="" disabled selected>Sélectionnez votre wilaya</option>
+            <option>01 - Adrar</option><option>02 - Chlef</option><option>03 - Laghouat</option>
+            <option>04 - Oum El Bouaghi</option><option>05 - Batna</option><option>06 - Béjaïa</option>
+            <option>07 - Biskra</option><option>08 - Béchar</option><option>09 - Blida</option>
+            <option>10 - Bouira</option><option>11 - Tamanrasset</option><option>12 - Tébessa</option>
+            <option>13 - Tlemcen</option><option>14 - Tiaret</option><option>15 - Tizi Ouzou</option>
+            <option selected>16 - Alger</option><option>17 - Djelfa</option><option>18 - Jijel</option>
+            <option>19 - Sétif</option><option>20 - Saïda</option><option>21 - Skikda</option>
+            <option>22 - Sidi Bel Abbès</option><option>23 - Annaba</option><option>24 - Guelma</option>
+            <option>25 - Constantine</option><option>26 - Médéa</option><option>27 - Mostaganem</option>
+            <option>28 - M'Sila</option><option>29 - Mascara</option><option>30 - Ouargla</option>
+            <option>31 - Oran</option><option>32 - El Bayadh</option><option>33 - Illizi</option>
+            <option>34 - Bordj Bou Arréridj</option><option>35 - Boumerdès</option>
+            <option>36 - El Tarf</option><option>37 - Tindouf</option><option>38 - Tissemsilt</option>
+            <option>39 - El Oued</option><option>40 - Khenchela</option><option>41 - Souk Ahras</option>
+            <option>42 - Tipaza</option><option>43 - Mila</option><option>44 - Aïn Defla</option>
+            <option>45 - Naâma</option><option>46 - Aïn Témouchent</option><option>47 - Ghardaïa</option>
+            <option>48 - Relizane</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="societe">Société (facultatif)</label>
+          <input type="text" id="societe" placeholder="Nom de votre entreprise" />
+        </div>
+      </div>
+
+      <!-- Section 2 : Nature de la demande -->
+      <div class="form-section-title">
+        <span class="sec-num">2</span>
+        NATURE DE LA DEMANDE
+      </div>
+
+      <div class="field" style="margin-bottom:24px;">
+        <label>Type de demande <span class="required">*</span></label>
+        <div class="radio-group" id="demande-group">
+          <label class="radio-item" onclick="selectRadio(this,'demande-group')">
+            <input type="radio" name="demande" value="achat" />
+            <span class="radio-box"></span> 🚗 Achat de Véhicule
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'demande-group')">
+            <input type="radio" name="demande" value="location" />
+            <span class="radio-box"></span> 🔑 Location / Leasing
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'demande-group')">
+            <input type="radio" name="demande" value="service" />
+            <span class="radio-box"></span> 🛠️ Entretien & Service
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'demande-group')">
+            <input type="radio" name="demande" value="reprise" />
+            <span class="radio-box"></span> 🔄 Reprise de Véhicule
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'demande-group')">
+            <input type="radio" name="demande" value="financement" />
+            <span class="radio-box"></span> 💳 Financement
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'demande-group')">
+            <input type="radio" name="demande" value="info" />
+            <span class="radio-box"></span> ℹ️ Renseignement
+          </label>
+        </div>
+      </div>
+
+      <!-- Section 3 : Préférences véhicule -->
+      <div class="form-section-title">
+        <span class="sec-num">3</span>
+        PRÉFÉRENCES VÉHICULE
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="marque">Marque souhaitée</label>
+          <select id="marque">
+            <option value="" disabled selected>Sélectionnez une marque</option>
+            <optgroup label="Ultra Luxe">
+              <option>Rolls-Royce</option><option>Bentley</option><option>Bugatti</option>
+              <option>Lamborghini</option><option>Ferrari</option><option>Aston Martin</option>
+              <option>McLaren</option><option>Pagani</option>
+            </optgroup>
+            <optgroup label="Sport Premium">
+              <option>Porsche</option><option>Maserati</option><option>Alfa Romeo</option>
+              <option>Lotus</option>
+            </optgroup>
+            <optgroup label="Luxe">
+              <option>Mercedes-Benz</option><option>BMW</option><option>Audi</option>
+              <option>Lexus</option><option>Jaguar</option><option>Land Rover</option>
+              <option>Volvo</option><option>Genesis</option>
+            </optgroup>
+            <option value="autre">Autre / Pas de préférence</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="modele">Modèle / Version</label>
+          <input type="text" id="modele" placeholder="Ex: Phantom, 911 GT3, S-Class..." />
+        </div>
+        <div class="field">
+          <label for="carrosserie">Type de carrosserie</label>
+          <select id="carrosserie">
+            <option value="" disabled selected>Sélectionnez</option>
+            <option>Berline</option><option>Coupé</option><option>Cabriolet</option>
+            <option>SUV / 4x4</option><option>Crossover</option><option>Break</option>
+            <option>Supercar</option><option>Limousine</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="energie">Motorisation</label>
+          <select id="energie">
+            <option value="" disabled selected>Sélectionnez</option>
+            <option>Essence</option><option>Diesel</option><option>Hybride</option>
+            <option>Hybride Rechargeable (PHEV)</option><option>Électrique</option>
+            <option>Pas de préférence</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="annee">Année (min)</label>
+          <select id="annee">
+            <option value="" disabled selected>À partir de</option>
+            <option>2025</option><option>2024</option><option>2023</option>
+            <option>2022</option><option>2021</option><option>2020</option>
+            <option>2018</option><option>Peu importe</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="couleur">Couleur préférée</label>
+          <input type="text" id="couleur" placeholder="Ex: Noir, Blanc Nacré, Bleu Nuit..." />
+        </div>
+      </div>
+
+      <!-- Budget -->
+      <div class="field" style="margin-top:24px;">
+        <label>Budget maximum (DZD)</label>
+        <div class="slider-wrap">
+          <div class="budget-display" id="budget-display">50 000 000 DZD</div>
+          <input type="range" id="budget-slider" min="1000000" max="500000000" step="1000000" value="50000000" oninput="updateBudget(this.value)" />
+          <div class="range-labels">
+            <span>1 M DZD</span>
+            <span>250 M DZD</span>
+            <span>500 M DZD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Options souhaitées -->
+      <div class="field" style="margin-top:24px;">
+        <label>Options & équipements souhaités</label>
+        <div class="checkbox-group" id="options-group">
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" value="toit-pano" /><span class="check-box"></span> Toit Panoramique
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" value="cuir" /><span class="check-box"></span> Sellerie Cuir
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" value="sport" /><span class="check-box"></span> Pack Sport
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" value="4wd" /><span class="check-box"></span> 4 Roues Motrices
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" value="camera" /><span class="check-box"></span> Caméras 360°
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" value="son" /><span class="check-box"></span> Système Audio Premium
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" value="aide-conduite" /><span class="check-box"></span> Aides à la Conduite
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" value="blindage" /><span class="check-box"></span> Blindage VR
+          </label>
+        </div>
+      </div>
+
+      <!-- Section 4 : Message -->
+      <div class="form-section-title">
+        <span class="sec-num">4</span>
+        VOTRE MESSAGE
+      </div>
+      <div class="field">
+        <label for="objet">Objet de votre demande <span class="required">*</span></label>
+        <input type="text" id="objet" placeholder="Ex: Demande de devis, Prise de rendez-vous..." required />
+      </div>
+      <div class="field" style="margin-top:20px;">
+        <label for="message">Description détaillée <span class="required">*</span></label>
+        <textarea id="message" placeholder="Décrivez votre projet, vos attentes, votre situation actuelle..." rows="6" required></textarea>
+      </div>
+
+      <!-- Canal de contact -->
+      <div class="field" style="margin-top:24px;">
+        <label>Canal de contact préféré</label>
+        <div class="radio-group" id="canal-group">
+          <label class="radio-item" onclick="selectRadio(this,'canal-group')">
+            <input type="radio" name="canal" value="email" /><span class="radio-box"></span> 📧 Email
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'canal-group')">
+            <input type="radio" name="canal" value="tel" /><span class="radio-box"></span> 📞 Téléphone
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'canal-group')">
+            <input type="radio" name="canal" value="whatsapp" /><span class="radio-box"></span> 💬 WhatsApp
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'canal-group')">
+            <input type="radio" name="canal" value="rdv" /><span class="radio-box"></span> 🤝 Rendez-vous
+          </label>
+        </div>
+      </div>
+
+      <!-- Créneau horaire -->
+      <div class="form-grid" style="margin-top:20px;">
+        <div class="field">
+          <label for="date-rdv">Date souhaitée</label>
+          <input type="text" id="date-rdv" placeholder="JJ/MM/AAAA" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" />
+        </div>
+        <div class="field">
+          <label for="heure-rdv">Créneau horaire</label>
+          <select id="heure-rdv">
+            <option value="" disabled selected>Sélectionnez</option>
+            <option>09h00 – 10h00</option><option>10h00 – 11h00</option>
+            <option>11h00 – 12h00</option><option>14h00 – 15h00</option>
+            <option>15h00 – 16h00</option><option>16h00 – 17h00</option>
+            <option>17h00 – 18h00</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Section 5 : Pièces jointes -->
+      <div class="form-section-title">
+        <span class="sec-num">5</span>
+        DOCUMENTS & PIÈCES JOINTES
+      </div>
+
+      <p style="font-size:0.82rem;color:var(--gray-light);margin-bottom:20px;font-family:var(--font-serif);">
+        Joignez vos documents pour accélérer le traitement de votre demande (carte d'identité, carte grise, relevé bancaire, photos du véhicule à reprendre, etc.)
+      </p>
+
+      <div class="upload-zone" id="upload-zone" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFiles(event)">
+        <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.heic" onchange="handleFiles(this.files)" />
+        <div class="upload-icon">📎</div>
+        <div class="upload-title">GLISSEZ VOS DOCUMENTS ICI</div>
+        <div class="upload-sub">ou cliquez pour sélectionner</div>
+        <div class="upload-types">PDF · DOC · JPG · PNG · HEIC — Max 20 Mo par fichier</div>
+      </div>
+
+      <div class="upload-list" id="upload-list"></div>
+
+      <!-- Consentement RGPD -->
+      <div class="consent-block">
+        <div class="consent-check-wrap">
+          <div class="consent-check" id="consent-check" onclick="toggleConsent()"></div>
+        </div>
+        <div class="consent-text">
+          J'accepte que VX Motors collecte et traite mes données personnelles dans le cadre de ma demande, conformément à la <a href="#">politique de confidentialité</a>. Ces données ne seront jamais partagées avec des tiers sans mon consentement. <span style="color:var(--gold)">*</span>
+        </div>
+      </div>
+
+      <!-- Bouton envoi -->
+      <button class="btn-submit" id="btn-submit" onclick="submitForm()">
+        ENVOYER MA DEMANDE
+        <span class="btn-arrow">→</span>
+      </button>
+
+    </div><!-- /form-container -->
+  </main>
+
+</div><!-- /contact-wrapper -->
+
+<!-- =================== CARTE =================== -->
+<section class="map-section reveal">
+  <h2 class="map-title">NOTRE <em>LOCALISATION</em></h2>
+  <div class="map-container">
+    <div class="map-grid-overlay"></div>
+    <div class="map-placeholder">
+      <div class="map-pin">📍</div>
+      <p>VX Motors — Showroom Premium Alger</p>
+      <span>Hay El Badr, Route Nationale N°5, Alger</span>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer class="contact-footer">
+  <div class="footer-logo">VX MOTORS</div>
+  <div class="footer-copy">© 2025 VX Motors. Tous droits réservés.</div>
+  <div class="footer-links">
+    <a href="#">Confidentialité</a>
+    <a href="#">Mentions légales</a>
+    <a href="VX_MOTORS.html">Accueil</a>
+  </div>
+</footer>
+
+<!-- =================== SUCCÈS OVERLAY =================== -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-icon">✅</div>
+  <div class="success-title">DEMANDE ENVOYÉE</div>
+  <p class="success-text">Votre demande a bien été transmise à notre équipe. Un conseiller VX Motors vous contactera dans les 24h ouvrées.</p>
+  <div class="success-ref" id="success-ref">Référence : VX-XXXX-XXXX</div>
+  <button class="btn-back-home" onclick="window.location.href='VX_MOTORS.html'">← RETOUR À L'ACCUEIL</button>
+</div>
+
+<!-- =================== TOAST =================== -->
+<div id="toast-container"></div>
+
+<!-- =================== SCRIPTS =================== -->
+<script>
+/* ============================================================
+   CURSEUR
+============================================================ */
+const cursorDot  = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+let rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  cursorDot.style.left  = e.clientX + 'px';
+  cursorDot.style.top   = e.clientY + 'px';
+  rx += (e.clientX - rx) * 0.18;
+  ry += (e.clientY - ry) * 0.18;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top  = ry + 'px';
+});
+
+setInterval(() => {
+  const e = { clientX: parseFloat(cursorDot.style.left)||0, clientY: parseFloat(cursorDot.style.top)||0 };
+  rx += (e.clientX - rx) * 0.18;
+  ry += (e.clientY - ry) * 0.18;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top  = ry + 'px';
+}, 16);
+
+document.querySelectorAll('a,button,.doc-item,.check-item,.radio-item,.consent-check,.upload-zone').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+/* ============================================================
+   LOADER
+============================================================ */
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1800);
+});
+
+/* ============================================================
+   BARRE DE PROGRESSION
+============================================================ */
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('reading-progress').style.width = pct + '%';
+
+  // Navbar
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ============================================================
+   REVEAL AU SCROLL
+============================================================ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ============================================================
+   RADIO / CHECKBOX
+============================================================ */
+function selectRadio(el, groupId) {
+  document.querySelectorAll(`#${groupId} .radio-item`).forEach(i => i.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function toggleCheck(el) {
+  el.classList.toggle('selected');
+}
+
+/* ============================================================
+   BUDGET SLIDER
+============================================================ */
+function updateBudget(val) {
+  const num = parseInt(val);
+  const formatted = num >= 1000000
+    ? (num / 1000000).toLocaleString('fr-FR', {maximumFractionDigits:0}) + ' M DZD'
+    : num.toLocaleString('fr-FR') + ' DZD';
+  document.getElementById('budget-display').textContent = formatted;
+
+  // Mise à jour visuelle du track
+  const slider = document.getElementById('budget-slider');
+  const min = parseInt(slider.min), max = parseInt(slider.max);
+  const pct = ((num - min) / (max - min)) * 100;
+  slider.style.background = `linear-gradient(90deg, var(--gold) ${pct}%, var(--dark3) ${pct}%)`;
+}
+// Init
+updateBudget(50000000);
+
+/* ============================================================
+   UPLOAD FICHIERS
+============================================================ */
+let uploadedFiles = [];
+
+function handleFiles(files) {
+  Array.from(files).forEach(file => {
+    if (file.size > 20 * 1024 * 1024) {
+      showToast(`${file.name} dépasse 20 Mo`, 'error'); return;
+    }
+    if (uploadedFiles.find(f => f.name === file.name)) {
+      showToast(`${file.name} déjà ajouté`, 'error'); return;
+    }
+    uploadedFiles.push(file);
+    renderUploadList();
+  });
+  if (uploadedFiles.length) showToast(`${uploadedFiles.length} document(s) ajouté(s)`, 'success');
+}
+
+function renderUploadList() {
+  const list = document.getElementById('upload-list');
+  list.innerHTML = uploadedFiles.map((f, i) => `
+    <div class="upload-item">
+      <span class="upload-item-name">📄 ${f.name}</span>
+      <span class="upload-item-size">${(f.size/1024/1024).toFixed(2)} Mo</span>
+      <button class="upload-item-del" onclick="removeFile(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeFile(idx) {
+  uploadedFiles.splice(idx, 1);
+  renderUploadList();
+}
+
+function dragOver(e) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.add('dragover');
+}
+function dragLeave() {
+  document.getElementById('upload-zone').classList.remove('dragover');
+}
+function dropFiles(e) {
+  e.preventDefault();
+  dragLeave();
+  handleFiles(e.dataTransfer.files);
+}
+
+/* ============================================================
+   CONSENTEMENT
+============================================================ */
+let consentGiven = false;
+function toggleConsent() {
+  consentGiven = !consentGiven;
+  document.getElementById('consent-check').classList.toggle('checked', consentGiven);
+}
+
+/* ============================================================
+   SOUMISSION FORMULAIRE
+============================================================ */
+function submitForm() {
+  const prenom  = document.getElementById('prenom').value.trim();
+  const nom     = document.getElementById('nom').value.trim();
+  const email   = document.getElementById('email').value.trim();
+  const tel     = document.getElementById('tel').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const objet   = document.getElementById('objet').value.trim();
+
+  // Validations
+  if (!prenom || !nom) { showToast('Veuillez entrer votre nom complet', 'error'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Email invalide', 'error'); return; }
+  if (!tel) { showToast('Numéro de téléphone requis', 'error'); return; }
+  if (!objet) { showToast('Veuillez indiquer l\'objet de votre demande', 'error'); return; }
+  if (!message) { showToast('Veuillez décrire votre demande', 'error'); return; }
+  if (!consentGiven) { showToast('Veuillez accepter la politique de confidentialité', 'error'); return; }
+
+  // Simulation envoi
+  const btn = document.getElementById('btn-submit');
+  btn.classList.add('sending');
+  btn.textContent = 'ENVOI EN COURS...';
+
+  setTimeout(() => {
+    // Générer une référence
+    const ref = 'VX-' + Math.floor(1000 + Math.random()*9000) + '-' + new Date().getFullYear();
+    document.getElementById('success-ref').textContent = 'Référence : ' + ref;
+    document.getElementById('success-overlay').classList.add('show');
+    btn.classList.remove('sending');
+    btn.textContent = 'ENVOYER MA DEMANDE';
+  }, 2200);
+}
+
+/* ============================================================
+   MOBILE MENU
+============================================================ */
+function toggleMobileMenu() {
+  const nav = document.getElementById('mobile-nav');
+  nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-nav').style.display = 'none';
+}
+
+/* ============================================================
+   TÉLÉCHARGEMENT SIMULÉ
+============================================================ */
+function simulateDownload(name) {
+  showToast(`Téléchargement : ${name}`, 'success');
+}
+
+/* ============================================================
+   TOAST
+============================================================ */
+function showToast(msg, type='') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => {
+    t.style.animation = 'toastOut 0.35s ease forwards';
+    setTimeout(() => t.remove(), 360);
+  }, 3500);
+}
+</script>
+
+</body>
+</html>

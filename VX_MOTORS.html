@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head> <!-- (A)==================================  Debut  ========================(L03)========================= -->
+       <!-- (A)==================================  Debut  ========================(L03)========================= -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VX MOTORS — Luxe & Performance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Bebas+Neue&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="style.css" type="text/css" rel="stylesheet" />
+
+        <!-- (A)==================================  Fin  ========================(L14)========================= -->
+</head> <!-- (A)==================================  Fin  ========================(L14)========================= -->
+
+<body> <!-- (B)==================================  Debut  ========================(L16)========================= -->
+       <!-- (B)==================================  Debut  ========================(L16)========================= -->
+
+<!-- 01==================================  ÉLÉMENTS GLOBAUX  == -->
+
+<!-- 02================================== NAVIGATION == -->
+
+<!-- 03==================================  HERO SLIDER  == -->
+
+<!-- 04==================================  STATS BAND  == -->
+
+<!-- 05==================================  CATALOGUE VÉHICULES === -->
+
+<!-- 06==================================  SERVICES DE RÉPARATION == -->
+
+<!-- 07==================================  À PROPOS  == -->
+
+<!-- 08==================================  TÉMOIGNAGES  == -->
+
+<!-- 09==================================  JEU — ROUE DE LA FORTUNE  == -->
+
+<!-- 10==================================  PROGRAMME DE FIDÉLITÉ  == -->
+
+<!-- 11==================================  NEWSLETTER  == -->
+
+<!-- 12==================================  CONTACT — ancre simple  == -->
+
+<!-- 13==================================  FOOTER  == -->
+      
+<!-- 14===================================  DRAWER PANIER  == -->
+
+<!-- 15===================================  MODAL DE COMMANDE  == -->
+
+<!-- ===========================================  ÉLÉMENTS GLOBAUX  ============================================= -->
+
+<!----------------------------------------- Curseur personnalisé --------------------------------------------------->
+<div id="cursor">
+  <div id="cursor-ring"></div>
+  <div id="cursor-dot"></div>
+</div>
+
+<!------------------------------------ Barre de progression lecture ----------------------------------------------->
+<div id="reading-progress"></div>
+
+<!---------------------------------------- Loader / Splash avec vidéo --------------------------------------------->
+<div id="loader">
+  <!----------------------------------------------- Vidéo de fond ------------------------------------------------->
+  <video id="loader-video" autoplay muted loop playsinline preload="auto">
+    <source src="Videos/AI.mp4" type="video/mp4" />
+  </video>
+  <div id="loader-overlay"></div>
+  <!---------------------------------------- Contenu centré ------------------------------------------------------->
+  <div class="loader-content">
+    <div class="loader-logo">DEVLOPEUR WEB<br>NASR REBOUCHE</div>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+    <div class="loader-text">Projet CFPA 2026: Merci pour votre attention</div>
+  </div>
+</div>
+
+<!------------------------------------------- Toast notifications -------------------------------------------------->
+                                        <div id="toast-container"></div>
+
+<!-- ======================================================================================================== -->
+
+<!-- ====================================  PANNEAU DE THÈME FLOTTANT  ====================================== -->
+<div id="theme-panel">
+  <div id="theme-swatches">
+    <div class="theme-swatch active" data-theme="gold"    onclick="setTheme('gold')">
+      <span class="swatch-label">Or Classique</span>
+    </div>
+    <div class="theme-swatch" data-theme="silver"  onclick="setTheme('silver')">
+      <span class="swatch-label">Platine</span>
+    </div>
+    <div class="theme-swatch" data-theme="cyan"    onclick="setTheme('cyan')">
+      <span class="swatch-label">Cyan Électrique</span>
+    </div>
+    <div class="theme-swatch" data-theme="ruby"    onclick="setTheme('ruby')">
+      <span class="swatch-label">Rubis Ferrari</span>
+    </div>
+    <div class="theme-swatch" data-theme="emerald" onclick="setTheme('emerald')">
+      <span class="swatch-label">Émeraude Bentley</span>
+    </div>
+  </div>
+  <button id="theme-toggle-btn" onclick="toggleThemePanel()">🎨</button>
+</div>
+
+<!-- ======================================================================================================= -->
+
+<!-- =================================  BOUTON AUDIO FLOTTANT ============================================== -->
+<button id="audio-fab" onclick="toggleAudio()">
+  🔇
+  <span id="audio-label">Ambiance V12</span>
+</button>
+
+<!-- ======================================================================================================= -->
+
+<!-- ==============================================  NAVIGATION  =========================================== -->
+
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">VX<span>MOTORS</span></a>
+
+  <ul class="nav-links">
+    <li><a href="#vehicles" class="btn-neon">
+    <span class="neon-span"></span><span class="neon-span"></span>
+    <span class="neon-span"></span><span class="neon-span"></span>Véhicules</a>
+    </li>
+    <li><a href="#services" class="btn-neon">
+    <span class="neon-span"></span><span class="neon-span"></span>
+    <span class="neon-span"></span><span class="neon-span"></span>Services</a>
+    </li>
+    <li><a href="#video-gallery" class="btn-neon">
+    <span class="neon-span"></span><span class="neon-span"></span>
+    <span class="neon-span"></span><span class="neon-span"></span>Vidéos</a>
+    </li>
+    <li><a href="VX_MOTORS_APROPOS.html" class="btn-neon">
+    <span class="neon-span"></span><span class="neon-span"></span>
+    <span class="neon-span"></span><span class="neon-span"></span>À propos</a>
+    </li>
+    <li><a href="VX_MOTORS_CONTACT.html" class="btn-neon" style="color:var(--gold);opacity:1;">
+    <span class="neon-span"></span><span class="neon-span"></span>
+    <span class="neon-span"></span><span class="neon-span"></span>Contact</a>
+    </li>
+  </ul>
+
+  <div class="nav-actions">
+    <button class="btn-cart" onclick="toggleCart()">
+      Panier
+      <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!------------------------------------------------- Menu mobile --------------------------------------------------->
+<div id="mobile-menu">
+  <a href="#vehicles" onclick="toggleMobileMenu()">Véhicules</a>
+  <a href="#services" onclick="toggleMobileMenu()">Services</a>
+  <a href="#games"    onclick="toggleMobileMenu()">Offres</a>
+  <a href="#loyalty"  onclick="toggleMobileMenu()">Fidélité</a>
+  <a href="VX_MOTORS_APROPOS.html"    onclick="toggleMobileMenu()">À propos</a>
+  <a href="VX_MOTORS_CONTACT.html" style="color:var(--gold)">Contact</a>
+</div>
+
+<!-- ============================================================================================================ -->
+
+<!-- ==============================================  HERO SLIDER  =============================================== -->
+
+<section id="hero">
+
+  <!--------------------------- Les slides sont générées dynamiquement par JS -------------------------------------->
+  <!--------------------- Voir SLIDER_DATA dans le script pour modifier le contenu --------------------------------->
+
+  <div class="slider-controls" id="slider-dots"></div>
+
+  <div class="scroll-cue">
+    <span>Défiler</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- ==============================================  STATS BAND  ================================================ -->
+
+<div id="stats-band">
+  <div class="stat-item reveal">
+    <div class="stat-number" data-target="850">26</div>
+    <div class="stat-label">Véhicules vendus</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <div class="stat-number" data-target="12">+2</div>
+    <div class="stat-label">Années d'expertise</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <div class="stat-number" data-target="98" data-suffix="%">26</div>
+    <div class="stat-label">Clients satisfaits</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <div class="stat-number" data-target="35">26</div>
+    <div class="stat-label">Marques premium</div>
+  </div>
+</div>
+
+<!-- ============================================================================================================ -->
+
+<!-- ==========================================  CATALOGUE VÉHICULES  =========================================== -->
+
+<section id="vehicles">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Notre Collection</span>
+    <h2 class="section-title">L'Excellence <strong>Automobile</strong></h2>
+    <div class="divider"></div>
+    <p class="section-sub">Sélection rigoureuse de véhicules d'exception, neufs et d'occasion certifiés</p>
+  </div>
+
+  <!------------------------------------ Filtres de catégorie ----------------------------------------------------->
+  <div class="filter-bar reveal">
+    <button class="filter-btn active" data-filter="all">Tous</button>
+    <button class="filter-btn" data-filter="vente">Vente</button>
+    <button class="filter-btn" data-filter="occasion">Occasion</button>
+    <button class="filter-btn" data-filter="sport">Sport</button>
+    <button class="filter-btn" data-filter="suv">SUV Premium</button>
+    <button class="filter-btn" data-filter="electrique">Électrique</button>
+  </div>
+
+  <!---------------------------------- Grille produits — générée par JS -------------------------------------------->
+  <div class="products-grid" id="products-grid"></div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- ======================================   SERVICES DE RÉPARATION   ========================================== -->
+<section id="services">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Atelier Expert</span>
+    <h2 class="section-title">Services de <strong>Réparation</strong></h2>
+    <div class="divider"></div>
+    <p class="section-sub">Techniciens certifiés, équipements de pointe, délais respectés</p>
+  </div>
+
+  <div class="services-grid" id="services-grid"></div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- ===================================  GALERIE VIDÉOS — Section cinématique ================================== -->
+     
+<!-- ===================================   les href VIDEO ID ICI / CHAINE ICI  ================================== -->
+
+<section id="video-gallery">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Univers VX</span>
+    <h2 class="section-title">En <strong>Mouvement</strong></h2>
+    <div class="divider"></div>
+    <p class="section-sub">Plongez dans l'univers VX Motors — performances, émotions et savoir-faire en images</p>
+  </div>
+
+  <div class="video-gallery-grid reveal">
+
+    <!---------------------------- VIDÉO PRINCIPALE (grande, gauche)  -------------------------------------------->
+    <div class="video-card video-card-main">
+      <img class="video-card-thumb"
+           src="Images/Toyota Supra.PNG?w=900"
+           alt="VX Motors Présentation" />
+      <video class="video-card-preview" muted loop playsinline>
+        <source src="Videos/Toyota Supra.mp4" type="video/mp4" />
+      </video>
+      <div class="video-platform"><span class="yt-dot"></span> PRIVATE</div>
+      <a class="video-play-btn"
+         href="Videos/Toyota Supra.mp4?v=VIDEO_ID_ICI"
+         target="_blank" rel="noopener" title="Voir la vidéo">
+        <div class="play-circle"><div class="play-triangle"></div></div>
+      </a>
+      <div class="video-card-info">
+        <div class="video-card-tag">Présentation du FEU</div>
+        <div class="video-card-title">VX MOTORS — L'Expérience Ultime</div>
+        <div class="video-card-sub">ShowTime · Performances · Passion automobile</div>
+      </div>
+    </div>
+
+    <!------------------------------------------- VIDÉO 2 (haut droite)  ------------------------------------------->
+    <div class="video-card video-card-side">
+      <img class="video-card-thumb"
+           src="Images/CB.PNG?w=800"
+           alt="Future 2030" />
+      <video class="video-card-preview" muted loop playsinline>
+        <source src="Videos/Cyberpunk.mp4" type="video/mp4" />
+      </video>
+      <div class="video-platform"><span class="yt-dot"></span> Future</div>
+      <a class="video-play-btn"
+         href="Videos/Cyberpunk.mp4?v=VIDEO_ID_ICI"
+         target="_blank" rel="noopener" title="Voir la vidéo">
+        <div class="play-circle"><div class="play-triangle"></div></div>
+      </a>
+      <div class="video-card-info">
+        <div class="video-card-tag">Imagination Drive</div>
+        <div class="video-card-title">Future 2030</div>
+        <div class="video-card-sub">500 ch · Circuit · Sensations pures</div>
+      </div>
+    </div>
+
+    <!----------------------------------------- VIDÉO 3 (bas droite)  ---------------------------------------------->
+    <div class="video-card video-card-side">
+      <img class="video-card-thumb"
+           src="Images/TS1.PNG?w=800"
+           alt=" MOTORS PS VX" />
+      <video class="video-card-preview" muted loop playsinline>
+        <source src="Videos/TS1.mp4" type="video/mp4" />
+      </video>
+      <div class="video-platform"><span class="yt-dot"></span> ENFER</div>
+      <a class="video-play-btn"
+         href="Videos/TS1.mp4?v=VIDEO_ID_ICI"
+         target="_blank" rel="noopener" title="Voir la vidéo">
+        <div class="play-circle"><div class="play-triangle"></div></div>
+      </a>
+      <div class="video-card-info">
+        <div class="video-card-tag">Behind the Scenes</div>
+        <div class="video-card-title">PS VXM — ATELIER VX</div>
+        <div class="video-card-sub">Préparation · Certification · contrôle</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!----------------------------------------- Bouton chaîne YouTube  --------------------------------------------->
+  <div style="text-align:center;margin-top:40px" class="reveal">
+    <a href="https://www.youtube.com"
+       target="_blank" rel="noopener"
+       class="btn-secondary"
+       style="display:inline-flex;align-items:center;gap:10px;padding:14px 40px">
+      <span style="color:#FF0000;font-size:1rem">▶</span>
+      Vision Vidéos
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- ============================================  À PROPOS  ==================================================== -->
+<section id="about">
+  <div class="about-bg"></div>
+  <div class="about-content">
+    <div class="about-text reveal">
+      <span class="section-eyebrow">Notre Histoire</span>
+      <h2 class="section-title">Un Standard <strong>Incomparable</strong></h2>
+      <p>Fondé sur une passion absolue pour l'automobile de luxe, VX MOTORS s'est imposé comme la référence incontournable du marché premium. Chaque véhicule que nous proposons est soumis à un contrôle qualité rigoureux de 150 points.</p>
+      <p style="margin-top:14px">Notre équipe de spécialistes certifiés par les plus grandes marques — Ferrari, Lamborghini, Bentley, Porsche — garantit une expertise technique sans égale.</p>
+      <a href="#vehicles" class="btn-primary mt-24" style="display:inline-block; margin-top:28px">Découvrir la Collection</a>
+    </div>
+    <div class="about-features reveal reveal-delay-2">
+      <div class="about-feat">
+        <div class="about-feat-icon">🏆</div>
+        <div>
+          <div class="about-feat-title">Certification Constructeur</div>
+          <div class="about-feat-desc">Agréés officiellement par Ferrari, Lamborghini, Porsche et Bentley</div>
+        </div>
+      </div>
+      <div class="about-feat">
+        <div class="about-feat-icon">🔬</div>
+        <div>
+          <div class="about-feat-title">Inspection 50 Points</div>
+          <div class="about-feat-desc">Chaque véhicule subit un audit complet avant mise en vente</div>
+        </div>
+      </div>
+      <div class="about-feat">
+        <div class="about-feat-icon">🛡️</div>
+        <div>
+          <div class="about-feat-title">Garantie 2 Ans</div>
+          <div class="about-feat-desc">Couverture totale sur tous les véhicules vendus</div>
+        </div>
+      </div>
+      <div class="about-feat">
+        <div class="about-feat-icon">🚗</div>
+        <div>
+          <div class="about-feat-title">Livraison Premium</div>
+          <div class="about-feat-desc">Livraison à domicile avec escorte dédiée partout en France</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- ===============================================  TÉMOIGNAGES  ============================================== -->
+<section id="testimonials">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Ils nous font confiance</span>
+    <h2 class="section-title">Ce que disent <strong>nos clients</strong></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="testimonials-slider">
+    <div class="testimonials-track" id="test-track"></div>
+  </div>
+  <div class="test-nav" id="test-nav"></div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- ========================================  JEU — ROUE DE LA FORTUNE========================================== -->
+<section id="games">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Jeux & Récompenses</span>
+    <h2 class="section-title">Tentez votre <strong>Chance</strong></h2>
+    <div class="divider"></div>
+    <p class="section-sub">Tournez la roue et remportez des réductions exclusives sur votre prochain achat</p>
+  </div>
+
+  <div class="games-inner">
+    <div class="wheel-wrap reveal">
+      <div class="wheel-pointer"></div>
+      <canvas id="wheel-canvas" width="320" height="320"></canvas>
+      <button class="btn-spin" id="btn-spin" onclick="spinWheel()">TOURNER</button>
+    </div>
+    <div class="games-text reveal reveal-delay-2">
+      <span class="section-eyebrow">Comment ça marche ?</span>
+      <h3 class="section-title" style="font-size:1.8rem">Gagnez des codes <strong>réduction</strong></h3>
+      <p>Chaque tour de roue vous offre une chance de gagner jusqu'à <strong style="color:var(--gold)">30% de réduction</strong> sur votre prochain véhicule ou service de réparation. Un tour par jour, par compte client.</p>
+      <p style="margin-top:12px">Les codes générés sont valables 30 jours et applicables directement dans votre panier.</p>
+      <div class="promo-result" id="promo-result">
+        <div style="font-size:0.65rem;letter-spacing:0.4em;color:var(--gray-light);text-transform:uppercase;margin-bottom:8px">Votre Code :</div>
+        <div class="promo-code" id="promo-code-display">VX-XXX</div>
+        <div class="promo-desc" id="promo-desc">Description de la réduction</div>
+        <button class="btn-primary mt-16" onclick="copyPromoCode()" style="width:100%;margin-top:16px">Copier le Code</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- ==========================================  PROGRAMME DE FIDÉLITÉ ========================================== -->
+<section id="loyalty">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Programme Exclusif</span>
+    <h2 class="section-title">Carte <strong>VX Elite</strong></h2>
+    <div class="divider"></div>
+    <p class="section-sub">Accumulez des points à chaque achat et accédez à des privilèges exclusifs</p>
+  </div>
+
+  <div class="loyalty-inner">
+    <div class="loyalty-card reveal" id="loyalty-card">
+      <div>
+        <div class="loyalty-name-label">Membre VX Elite</div>
+        <div class="loyalty-name" id="loyalty-member-name">Alexandre Dupont</div>
+        <div class="loyalty-tier" id="loyalty-tier">Gold</div>
+
+        <div class="loyalty-progress" style="margin-top:28px">
+          <div class="loyalty-progress-labels">
+            <span id="tier-current">Gold</span>
+            <span id="tier-next">Platinum — encore <strong id="pts-needed">1 500 pts</strong></span>
+          </div>
+          <div class="loyalty-bar-track">
+            <div class="loyalty-bar-fill" id="loyalty-bar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="loyalty-benefits">
+          <span class="loyalty-benefit">✓ Livraison offerte</span>
+          <span class="loyalty-benefit">✓ Accès VIP showroom</span>
+          <span class="loyalty-benefit">✓ Diagnostic gratuit</span>
+          <span class="loyalty-benefit">✓ Assistance 24/7</span>
+        </div>
+      </div>
+      <div class="loyalty-points-section">
+        <div class="loyalty-points-num" id="loyalty-points">3 500</div>
+        <div class="loyalty-pts-label">Points</div>
+        <div style="margin-top:12px;font-size:0.7rem;color:var(--gray-light)">
+          N° <strong style="color:var(--gold)">VX-2024-0847</strong>
+        </div>
+        <button class="btn-primary" style="margin-top:20px;padding:10px 20px;font-size:0.7rem"
+                onclick="simulatePurchase()">Simuler un achat</button>
+      </div>
+    </div>
+
+    <!-- Tableau des niveaux -->
+    <div class="reveal" style="margin-top:40px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:2px">
+        <div style="background:var(--dark2);padding:24px;text-align:center;border-top:2px solid #CD7F32">
+          <div style="font-family:var(--font-display);font-size:1.3rem;color:#CD7F32">BRONZE</div>
+          <div style="font-size:0.7rem;color:var(--gray-light);margin-top:8px">0 – 1 000 pts</div>
+          <div style="font-size:0.75rem;margin-top:12px;color:var(--white)">Remise 2%</div>
+        </div>
+        <div style="background:var(--dark2);padding:24px;text-align:center;border-top:2px solid var(--gold)">
+          <div style="font-family:var(--font-display);font-size:1.3rem;color:var(--gold)">GOLD</div>
+          <div style="font-size:0.7rem;color:var(--gray-light);margin-top:8px">1 000 – 5 000 pts</div>
+          <div style="font-size:0.75rem;margin-top:12px;color:var(--white)">Remise 5% + livraison</div>
+        </div>
+        <div style="background:var(--dark2);padding:24px;text-align:center;border-top:2px solid #E5E4E2">
+          <div style="font-family:var(--font-display);font-size:1.3rem;color:#E5E4E2">PLATINUM</div>
+          <div style="font-size:0.7rem;color:var(--gray-light);margin-top:8px">5 000 – 15 000 pts</div>
+          <div style="font-size:0.75rem;margin-top:12px;color:var(--white)">Remise 10% + VIP</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#1a1a2e,#0d0d1a);padding:24px;text-align:center;border-top:2px solid #B9F2FF">
+          <div style="font-family:var(--font-display);font-size:1.3rem;color:#B9F2FF">DIAMOND</div>
+          <div style="font-size:0.7rem;color:var(--gray-light);margin-top:8px">15 000+ pts</div>
+          <div style="font-size:0.75rem;margin-top:12px;color:var(--white)">Remise 15% + Conciergerie</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- ================================================  NEWSLETTER =============================================== -->
+<section id="newsletter">
+  <div class="newsletter-inner reveal">
+    <span class="section-eyebrow">Restez Informé</span>
+    <h2 class="section-title">Rejoignez <strong>l'Élite VX</strong></h2>
+    <p>Nouvelles arrivées, offres exclusives, événements privés — en avant-première.</p>
+    <div class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="votre@email.com" id="newsletter-email" />
+      <button class="btn-primary" onclick="subscribeNewsletter()">S'abonner</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- =========================================  CONTACT — ancre simple  ========================================= -->
+<section id="contact" style="background:var(--dark);padding:80px clamp(20px,5vw,100px)">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Nous Contacter</span>
+    <h2 class="section-title">Parlons de <strong>votre projet</strong></h2>
+    <div class="divider"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:2px;max-width:900px;margin:0 auto" class="reveal">
+    <div style="background:var(--dark2);padding:36px;text-align:center">
+      <div style="font-size:2rem;margin-bottom:16px">📍</div>
+      <div style="font-size:0.65rem;letter-spacing:0.4em;color:var(--gold);text-transform:uppercase;margin-bottom:8px">Adresse</div>
+      <div style="font-size:0.9rem;color:var(--gray-light)">12 Avenue des Champs-Élysées<br>75008 Paris</div>
+    </div>
+    <div style="background:var(--dark2);padding:36px;text-align:center">
+      <div style="font-size:2rem;margin-bottom:16px">📞</div>
+      <div style="font-size:0.65rem;letter-spacing:0.4em;color:var(--gold);text-transform:uppercase;margin-bottom:8px">Téléphone</div>
+      <div style="font-size:0.9rem;color:var(--gray-light)">+33 1 42 00 00 00</div>
+      <div style="font-size:0.8rem;color:var(--gray);margin-top:4px">Lun–Sam : 9h – 19h</div>
+    </div>
+    <div style="background:var(--dark2);padding:36px;text-align:center">
+      <div style="font-size:2rem;margin-bottom:16px">✉️</div>
+      <div style="font-size:0.65rem;letter-spacing:0.4em;color:var(--gold);text-transform:uppercase;margin-bottom:8px">Email</div>
+      <div style="font-size:0.9rem;color:var(--gray-light)">contact@vxmotors.fr</div>
+    </div>
+    <div style="background:var(--dark2);padding:36px;text-align:center">
+      <div style="font-size:2rem;margin-bottom:16px">⏰</div>
+      <div style="font-size:0.65rem;letter-spacing:0.4em;color:var(--gold);text-transform:uppercase;margin-bottom:8px">Horaires</div>
+      <div style="font-size:0.9rem;color:var(--gray-light)">Lun–Ven : 9h–19h<br>Sam : 10h–17h</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================================================ -->
+
+<!-- =============================================  FOOTER  ===================================================== -->
+<footer id="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">VX NASR MOTORS</div>
+      <p class="footer-tagline">L'excellence automobile depuis 2026. Votre passion, notre expertise.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/" class="social-btn" title="Instagram">Insta</a>
+        <a href="https://www.facebook.com/" class="social-btn" title="Facebook">FB</a>
+        <a href="https://www.youtube.com/" class="social-btn" title="YouTube">YT</a>
+        <a href="https://fr.linkedin.com/" class="social-btn" title="LinkedIn">LI</a>
+        <a href="https://www.whatsapp.com/" class="social-btn" title="WhatsApp">WA</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Véhicules</div>
+      <div class="footer-links">
+        <a href="#vehicles">Voitures neuves</a>
+        <a href="#vehicles">Occasions certifiées</a>
+        <a href="#vehicles">Sport & Performance</a>
+        <a href="#vehicles">SUV Premium</a>
+        <a href="#vehicles">Électrique</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <div class="footer-links">
+        <a href="#services">Diagnostic</a>
+        <a href="#services">Carrosserie</a>
+        <a href="#services">Mécanique</a>
+        <a href="#services">Tuning & Préparation</a>
+        <a href="#services">Entretien</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">VX Club</div>
+      <div class="footer-links">
+        <a href="#loyalty">Programme Fidélité</a>
+        <a href="#games">Jeux & Cadeaux</a>
+        <a href="#">Événements Privés</a>
+        <a href="#">Financement</a>
+        <a href="#">Reprise Véhicule</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">Cree par: Mr.Nasr Rebouche © 2026 VX MOTORS. Tous droits réservés.</div>
+    <div style="display:flex;gap:20px;font-size:0.7rem">
+      <a href="#" style="color:var(--gray)">Mentions légales</a>
+      <a href="#" style="color:var(--gray)">CGV</a>
+      <a href="#" style="color:var(--gray)">Confidentialité</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================================================================ -->
+
+<!-- ==============================================  DRAWER PANIER  ============================================= -->
+<div class="cart-backdrop" id="cart-backdrop" onclick="toggleCart()"></div>
+<div id="cart-drawer">
+  <div class="cart-header">
+    <div class="cart-title">Mon Panier</div>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cart-body">
+    <div class="cart-empty" id="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <div>Votre panier est vide</div>
+      <div style="margin-top:8px;font-size:0.75rem">Explorez notre collection d'exception</div>
+    </div>
+    <div id="cart-items"></div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-promo">
+      <input type="text" placeholder="Code promo" id="promo-input" />
+      <button class="btn-apply-promo" onclick="applyPromo()">Appliquer</button>
+    </div>
+    <div class="discount-row" id="discount-row">
+      <span>Réduction appliquée</span>
+      <span id="discount-val">-0 €</span>
+    </div>
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total TTC</span>
+      <span class="cart-total-val" id="cart-total">0 €</span>
+    </div>
+    <button class="btn-checkout" onclick="openOrderModal()">Commander →</button>
+  </div>
+</div>
+
+<!-- ============================================================================================================ -->
+
+<!-- =========================================  MODAL DE COMMANDE  ============================================== -->
+<div id="order-modal">
+  <div class="modal-backdrop" onclick="closeOrderModal()"></div>
+  <div class="modal-box">
+    <div class="modal-title">Commande</div>
+    <div class="modal-subtitle">Complétez votre demande en 3 étapes simples</div>
+
+    <!-- Étapes -->
+    <div class="order-steps" id="order-steps">
+      <div class="order-step active" id="step-ind-1">
+        <div class="step-num">1</div>
+        <div class="step-label">Coordonnées</div>
+      </div>
+      <div class="order-step" id="step-ind-2">
+        <div class="step-num">2</div>
+        <div class="step-label">Livraison</div>
+      </div>
+      <div class="order-step" id="step-ind-3">
+        <div class="step-num">3</div>
+        <div class="step-label">Confirmation</div>
+      </div>
+    </div>
+
+    <!---------------------------------------- Formulaire succès --------------------------------------------------->
+    <div class="order-success" id="order-success">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Commande Confirmée !</div>
+      <div class="success-ref" id="success-ref">Référence : #VX-2024-XXXX</div>
+      <p style="margin-top:16px;font-size:0.85rem;color:var(--gray-light)">
+        Notre équipe vous contactera dans les 24h pour finaliser les modalités.
+      </p>
+      <div class="loyalty-earned" id="loyalty-earned">
+        🏆 +500 points VX Elite ajoutés à votre carte fidélité !
+      </div>
+      <button class="btn-primary" style="margin-top:24px;width:100%" onclick="closeOrderModal()">Fermer</button>
+    </div>
+
+    <!------------------------------------- Étape 1 : Coordonnées -------------------------------------------------->
+    <div class="form-step active" id="form-step-1">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Prénom *</label>
+          <input type="text" class="form-input" id="f-prenom" placeholder="Alexandre" />
+          <span class="form-error" id="err-prenom"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nom *</label>
+          <input type="text" class="form-input" id="f-nom" placeholder="Dupont" />
+          <span class="form-error" id="err-nom"></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input type="email" class="form-input" id="f-email" placeholder="vous@email.com" />
+        <span class="form-error" id="err-email"></span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Téléphone *</label>
+        <input type="tel" class="form-input" id="f-tel" placeholder="+33 6 00 00 00 00" />
+        <span class="form-error" id="err-tel"></span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Adresse *</label>
+        <input type="text" class="form-input" id="f-adresse" placeholder="12 rue de la Paix" />
+        <span class="form-error" id="err-adresse"></span>
+      </div>
+      <div class="form-nav">
+        <button class="btn-next" onclick="goToStep(2)">Suivant →</button>
+      </div>
+    </div>
+
+    <!--------------------------------------- Étape 2 : Livraison ------------------------------------------------->
+    <div class="form-step" id="form-step-2">
+      <div class="form-group">
+        <label class="form-label">Mode de livraison</label>
+        <div class="delivery-options" id="delivery-options">
+          <label class="delivery-option" onclick="selectDelivery(this, 0)">
+            <input type="radio" name="delivery" value="0" checked />
+            <div class="delivery-option-icon">🏪</div>
+            <div>
+              <div class="delivery-option-name">Retrait Showroom</div>
+              <div class="delivery-option-time">Disponible sous 48h</div>
+            </div>
+            <div class="delivery-option-price">GRATUIT</div>
+          </label>
+          <label class="delivery-option" onclick="selectDelivery(this, 490)">
+            <input type="radio" name="delivery" value="490" />
+            <div class="delivery-option-icon">🚗</div>
+            <div>
+              <div class="delivery-option-name">Livraison à Domicile</div>
+              <div class="delivery-option-time">Sous 5–7 jours ouvrés</div>
+            </div>
+            <div class="delivery-option-price">490 €</div>
+          </label>
+          <label class="delivery-option" onclick="selectDelivery(this, 990)">
+            <input type="radio" name="delivery" value="990" />
+            <div class="delivery-option-icon">✈️</div>
+            <div>
+              <div class="delivery-option-name">Livraison Express Premium</div>
+              <div class="delivery-option-time">Sous 24–48h avec escorte</div>
+            </div>
+            <div class="delivery-option-price">990 €</div>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes spéciales (optionnel)</label>
+        <input type="text" class="form-input" id="f-notes" placeholder="Instructions particulières..." />
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goToStep(1)">← Retour</button>
+        <button class="btn-next" onclick="goToStep(3)">Confirmer →</button>
+      </div>
+    </div>
+
+    <!------------------------------------ Étape 3 : Récapitulatif ------------------------------------------------>
+    <div class="form-step" id="form-step-3">
+      <div style="background:var(--dark3);padding:20px;border-radius:2px;margin-bottom:16px">
+        <div style="font-size:0.65rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:12px">Récapitulatif</div>
+        <div id="order-recap" style="font-size:0.85rem;color:var(--gray-light);line-height:1.8"></div>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goToStep(2)">← Retour</button>
+        <button class="btn-next" onclick="submitOrder()">Valider la commande ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================================================================ -->
+
+<!-- ============================================  LIEN  ======================================================= -->
+                              <script src="myscripts.js"></script>
+<!-- ============================================  LIEN  ======================================================= -->
+
+        <!-- (B)==================================  Fin  ======================================================= -->
+</body> <!-- (B)==================================  Fin  ======================================================= -->
+
+<!-- ============================================================================================================ -->
+
+</html>
+
+
+
+
+
+
+
+
+
+
+

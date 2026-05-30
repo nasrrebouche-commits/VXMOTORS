@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VX MOTORS — Notre Histoire & Notre ADN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Bebas+Neue&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       PALETTE — BLEU MÉTALLISÉ & ALUMINIUM
+       Effet mécanique, acier, chrome, précision industrielle
+    ============================================================ */
+    :root {
+      --blue:         #2D7DD2;   /* Bleu métallisé principal        */
+      --blue-light:   #5BA3E8;   /* Bleu clair / chrome brillant    */
+      --blue-dark:    #1A4E8F;   /* Bleu foncé acier                */
+      --blue-glow:    #4A90D9;   /* Lueur électrique                */
+      --steel:        #8FA8BE;   /* Aluminium / acier brossé        */
+      --chrome:       #C8D8E8;   /* Chrome poli                     */
+      --chrome-light: #E4EEF6;   /* Reflet chrome clair             */
+      --black:        #06080C;   /* Fond très sombre acier          */
+      --dark:         #0D1520;   /* Fond principal                  */
+      --dark2:        #141D2A;   /* Fond secondaire                 */
+      --dark3:        #1E2A38;   /* Fond tertiaire                  */
+      --gray:         #3A4A5A;   /* Gris acier                      */
+      --gray-light:   #6A8595;   /* Aluminium gris clair            */
+      --white:        #C8D8E8;   /* Blanc aluminium                 */
+      --white-pure:   #EEF4FA;   /* Blanc pur                       */
+      --red:          #C0392B;
+      --green:        #27AE60;
+
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif:   'Cormorant Garamond', serif;
+      --font-body:    'Jost', sans-serif;
+
+      --transition:     0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-blue:    0 0 40px rgba(45,125,210,0.3);
+      --shadow-deep:    0 20px 60px rgba(0,0,0,0.7);
+      --nav-height:     75px;
+
+      /* Effet métal brossé via dégradé */
+      --metal-gradient: linear-gradient(135deg,
+        #0D1520 0%, #141D2A 20%, #1E2A38 40%,
+        #1A2535 60%, #0D1520 80%, #141D2A 100%);
+
+      --steel-gradient: linear-gradient(90deg,
+        #6A8595 0%, #8FA8BE 30%, #C8D8E8 50%,
+        #8FA8BE 70%, #6A8595 100%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    img { max-width: 100%; display: block; }
+    a   { color: inherit; text-decoration: none; }
+    ul  { list-style: none; }
+    button { cursor: none; font-family: var(--font-body); border: none; outline: none; }
+
+    /* ============================================================
+       TEXTURE MÉTAL — fond avec bruit subtil
+    ============================================================ */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: -1;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+        var(--black);
+      background-size: 200px, cover;
+    }
+
+    /* ============================================================
+       CURSEUR BLEU MÉTALLISÉ
+    ============================================================ */
+    #cursor { position: fixed; top:0; left:0; z-index:9999; pointer-events:none; }
+    #cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      position: absolute;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s;
+      box-shadow: 0 0 10px rgba(91,163,232,0.8);
+    }
+    #cursor-ring {
+      width: 38px; height: 38px;
+      border: 1px solid var(--blue);
+      border-radius: 50%;
+      position: absolute;
+      transform: translate(-50%,-50%);
+      transition: width .3s, height .3s, opacity .3s;
+      opacity: 0.5;
+    }
+    body.cursor-hover #cursor-dot { width:14px; height:14px; }
+    body.cursor-hover #cursor-ring { width:58px; height:58px; opacity:1; }
+
+    /* ============================================================
+       BARRE DE LECTURE
+    ============================================================ */
+    #reading-progress {
+      position: fixed; top:0; left:0; z-index:9998;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue), var(--blue-light), var(--chrome));
+      transition: width .1s linear;
+    }
+
+    /* ============================================================
+       LOADER MÉCANIQUE
+    ============================================================ */
+    #loader {
+      position: fixed; inset:0; z-index:9000;
+      background: var(--black);
+      display: flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:28px;
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+    #loader.hidden { opacity:0; visibility:hidden; }
+
+    .loader-gear-wrap {
+      position: relative; width: 80px; height: 80px;
+    }
+    .loader-gear {
+      width: 80px; height: 80px;
+      border: 3px solid var(--dark3);
+      border-top-color: var(--blue);
+      border-right-color: var(--blue-light);
+      border-radius: 50%;
+      animation: gearSpin 1s linear infinite;
+    }
+    .loader-gear-inner {
+      position: absolute; inset: 16px;
+      border: 2px solid var(--dark3);
+      border-bottom-color: var(--steel);
+      border-radius: 50%;
+      animation: gearSpin 0.7s linear infinite reverse;
+    }
+    @keyframes gearSpin { to { transform: rotate(360deg); } }
+
+    .loader-logo {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      letter-spacing: 0.3em;
+      background: var(--steel-gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 2s linear infinite;
+      background-size: 200%;
+    }
+    @keyframes shimmer { 0%{background-position:200%} 100%{background-position:-200%} }
+
+    .loader-bar-wrap { width: 200px; height: 1px; background: var(--dark3); position:relative; overflow:hidden; }
+    .loader-bar { position:absolute; left:-100%; top:0; height:100%; width:100%; background: linear-gradient(90deg, var(--blue-dark), var(--blue), var(--blue-light)); animation: loaderBar 1.8s ease forwards; }
+    .loader-text { font-size:.68rem; letter-spacing:.5em; color: var(--gray-light); text-transform:uppercase; }
+    @keyframes loaderBar { 0%{left:-100%} 100%{left:0} }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    #navbar {
+      position: fixed; top:0; left:0; right:0; z-index:500;
+      height: var(--nav-height);
+      display: flex; align-items:center; justify-content:space-between;
+      padding: 0 clamp(16px, 4vw, 60px);
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(6,8,12,0.94);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 1px 0 rgba(45,125,210,0.25);
+    }
+    .nav-logo {
+      font-family: var(--font-display); font-size:2rem; letter-spacing:.25em; line-height:1;
+      background: var(--steel-gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; background-size: 200%;
+      animation: shimmer 4s linear infinite;
+    }
+    .nav-logo span { font-size:.65em; letter-spacing:.5em; display:block; -webkit-text-fill-color: var(--gray-light); }
+    .nav-links { display:flex; align-items:center; gap:36px; }
+    .nav-links a {
+      font-size:.75rem; letter-spacing:.25em; text-transform:uppercase;
+      color: var(--white); opacity:.7;
+      transition: opacity var(--transition), color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0;
+      width:0; height:1px; background: var(--blue);
+      transition: width var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { opacity:1; color: var(--blue-light); }
+    .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+    .nav-hamburger { display:none; flex-direction:column; gap:5px; background:none; padding:4px; }
+    .nav-hamburger span { display:block; width:24px; height:1px; background:var(--blue-light); transition:var(--transition); }
+
+    /* ============================================================
+       HERO — FULL CINÉMATIQUE
+    ============================================================ */
+    #hero-about {
+      min-height: 100svh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: calc(var(--nav-height) + 40px) clamp(16px,6vw,80px) 80px;
+    }
+
+    /* Grille mécanique en fond */
+    .hero-grid-bg {
+      position: absolute; inset:0; z-index:0;
+      background-image:
+        linear-gradient(rgba(45,125,210,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(45,125,210,0.05) 1px, transparent 1px);
+      background-size: 80px 80px;
+      animation: gridScroll 20s linear infinite;
+    }
+    @keyframes gridScroll { 0%{background-position:0 0} 100%{background-position:80px 80px} }
+
+    /* Cercles mécaniques en fond */
+    .hero-circles {
+      position: absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden;
+    }
+    .hero-circles::before {
+      content:'';
+      position: absolute; right:-15%; top:50%;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      border: 1px solid rgba(45,125,210,0.12);
+      transform: translateY(-50%);
+      animation: rotateSlow 40s linear infinite;
+    }
+    .hero-circles::after {
+      content:'';
+      position: absolute; right:-8%; top:50%;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(91,163,232,0.08);
+      transform: translateY(-50%);
+      animation: rotateSlow 25s linear infinite reverse;
+    }
+    @keyframes rotateSlow { to { transform: translateY(-50%) rotate(360deg); } }
+
+    /* Radial glow */
+    .hero-glow {
+      position: absolute; inset:0; z-index:2;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(45,125,210,0.08) 0%, transparent 70%);
+    }
+
+    .hero-content { position: relative; z-index:3; text-align:center; max-width:1100px; }
+
+    .hero-eyebrow {
+      font-size:.7rem; letter-spacing:.6em; text-transform:uppercase;
+      color: var(--blue-light); margin-bottom:20px; display:block;
+      animation: fadeUp .8s .2s ease both;
+    }
+
+    .hero-title-main {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 14vw, 13rem);
+      line-height: .88; letter-spacing:.06em;
+      animation: fadeUp .9s .4s ease both;
+    }
+    .hero-title-main .line-chrome {
+      background: var(--steel-gradient);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; background-size:200%;
+      animation: shimmer 3s linear infinite;
+    }
+    .hero-title-main .line-white { color: var(--white-pure); }
+    .hero-title-main .line-blue  { color: var(--blue); }
+
+    .hero-separator {
+      width: 120px; height: 1px; margin: 32px auto;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--blue-light), var(--blue), transparent);
+      animation: fadeUp .8s .7s ease both;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 2.5vw, 1.7rem);
+      color: var(--steel);
+      font-style: italic;
+      animation: fadeUp .8s .9s ease both;
+    }
+
+    /* Indicateur scroll */
+    .scroll-indicator {
+      position: absolute; bottom: 40px; left:50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction:column; align-items:center; gap:8px;
+      font-size:.65rem; letter-spacing:.4em; text-transform:uppercase;
+      color: var(--gray-light); z-index:3;
+      animation: fadeUp .8s 1.2s ease both;
+    }
+    .scroll-line {
+      width:1px; height:50px;
+      background: linear-gradient(to bottom, var(--blue), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%,100%{height:30px;opacity:.4} 50%{height:55px;opacity:1} }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(35px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ============================================================
+       BANDEAU CHIFFRES CLÉS
+    ============================================================ */
+    #stats-band {
+      background: var(--dark2);
+      border-top: 1px solid rgba(45,125,210,0.2);
+      border-bottom: 1px solid rgba(45,125,210,0.2);
+      display: flex; flex-wrap:wrap;
+      position: relative; overflow:hidden;
+    }
+    #stats-band::before {
+      content:'';
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, transparent 0%, rgba(45,125,210,0.04) 50%, transparent 100%);
+      animation: scanLine 4s ease-in-out infinite;
+    }
+    @keyframes scanLine { 0%,100%{transform:translateX(-100%)} 50%{transform:translateX(100%)} }
+
+    .stat-item {
+      flex:1; min-width:200px;
+      padding: 40px 32px;
+      border-right: 1px solid rgba(45,125,210,0.12);
+      text-align:center; position:relative;
+    }
+    .stat-item:last-child { border-right:none; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing:.05em; line-height:1;
+      background: var(--steel-gradient);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; background-size:200%;
+      animation: shimmer 3s linear infinite;
+    }
+    .stat-label { font-size:.75rem; letter-spacing:.25em; text-transform:uppercase; color: var(--gray-light); margin-top:8px; }
+    .stat-sub { font-family: var(--font-serif); font-size:.9rem; color:var(--steel); margin-top:4px; font-style:italic; }
+
+    /* ============================================================
+       SECTIONS COMMUNES
+    ============================================================ */
+    section { padding: 100px clamp(16px, 6vw, 100px); }
+
+    .section-tag {
+      font-size:.65rem; letter-spacing:.6em; text-transform:uppercase;
+      color: var(--blue-light); display:block; margin-bottom:16px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      letter-spacing:.06em; line-height:.95;
+      color: var(--white-pure);
+    }
+    .section-title .accent {
+      background: var(--steel-gradient);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; background-size:200%;
+      animation: shimmer 3s linear infinite;
+    }
+    .metal-line {
+      width: 80px; height: 2px; margin: 24px 0;
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue), var(--blue-light));
+    }
+    .section-body {
+      font-family: var(--font-serif);
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: var(--steel); line-height:1.9;
+    }
+
+    /* ============================================================
+       SECTION FONDATION — 2 colonnes
+    ============================================================ */
+    #fondation {
+      background: var(--dark);
+      display: grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
+    }
+    .fondation-visual {
+      position: relative; height: 500px;
+    }
+    /* Rendu moteur / mécanique abstrait */
+    .engine-art {
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .engine-ring {
+      position:absolute; border-radius:50%;
+      border: 1px solid rgba(45,125,210,0.2);
+      animation: rotateSlow var(--dur, 20s) linear infinite var(--dir, normal);
+    }
+    .engine-ring:nth-child(1) { width:360px; height:360px; --dur:30s; border-color:rgba(45,125,210,0.15); }
+    .engine-ring:nth-child(2) { width:280px; height:280px; --dur:22s; --dir:reverse; border-color:rgba(91,163,232,0.2); }
+    .engine-ring:nth-child(3) { width:200px; height:200px; --dur:15s; border-color:rgba(200,216,232,0.18); }
+    .engine-ring:nth-child(4) { width:120px; height:120px; --dur:10s; --dir:reverse; border-color:rgba(45,125,210,0.35); }
+    .engine-cross {
+      position:absolute; inset:0;
+      background:
+        linear-gradient(90deg, transparent calc(50% - .5px), rgba(45,125,210,0.2) 50%, transparent calc(50% + .5px)),
+        linear-gradient(0deg,   transparent calc(50% - .5px), rgba(45,125,210,0.2) 50%, transparent calc(50% + .5px));
+    }
+    .engine-center {
+      width:60px; height:60px; position:relative;
+      background: radial-gradient(circle, var(--blue) 0%, var(--blue-dark) 100%);
+      border-radius:50%;
+      box-shadow: 0 0 30px rgba(45,125,210,0.6), 0 0 60px rgba(45,125,210,0.3);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--font-display); font-size:1rem; letter-spacing:.1em;
+      color:var(--white-pure); z-index:2;
+    }
+    /* Ticks on rings */
+    .engine-ticks {
+      position:absolute; width:300px; height:300px;
+      animation: rotateSlow 20s linear infinite;
+    }
+    .tick {
+      position:absolute; width:8px; height:1px;
+      background: var(--blue); top:50%; left:0;
+      transform-origin: 150px 0;
+    }
+
+    .fondation-text { padding: 20px 0; }
+
+    /* ============================================================
+       TIMELINE HISTOIRE
+    ============================================================ */
+    #timeline { background: var(--black); position:relative; }
+    #timeline::before {
+      content:'';
+      position:absolute; left:50%; top:120px; bottom:120px;
+      width:1px;
+      background: linear-gradient(to bottom, transparent, var(--blue) 10%, var(--blue-light) 50%, var(--blue) 90%, transparent);
+      transform:translateX(-50%);
+    }
+
+    .timeline-header { text-align:center; margin-bottom:80px; }
+
+    .timeline-entries { max-width:1000px; margin:0 auto; position:relative; }
+    .tl-entry {
+      display:grid; grid-template-columns:1fr 60px 1fr;
+      gap:0 40px; align-items:start;
+      margin-bottom:60px; position:relative;
+    }
+    .tl-entry:nth-child(even) .tl-content { grid-column:1; grid-row:1; text-align:right; }
+    .tl-entry:nth-child(even) .tl-dot   { grid-column:2; grid-row:1; }
+    .tl-entry:nth-child(even) .tl-empty { grid-column:3; grid-row:1; }
+    .tl-entry:nth-child(odd)  .tl-empty   { grid-column:1; grid-row:1; }
+    .tl-entry:nth-child(odd)  .tl-dot     { grid-column:2; grid-row:1; }
+    .tl-entry:nth-child(odd)  .tl-content { grid-column:3; grid-row:1; }
+
+    .tl-dot {
+      display:flex; flex-direction:column; align-items:center; gap:0;
+      padding-top:4px;
+    }
+    .tl-year {
+      font-family: var(--font-display);
+      font-size:1.1rem; letter-spacing:.15em;
+      color: var(--blue-light);
+      background: var(--dark2);
+      border: 1px solid rgba(45,125,210,0.4);
+      padding:4px 10px; white-space:nowrap;
+      position:relative;
+    }
+    .tl-year::before {
+      content:'';
+      position:absolute; left:50%; bottom:-6px;
+      width:12px; height:12px;
+      background: var(--blue);
+      border-radius:50%;
+      transform:translateX(-50%);
+      box-shadow:0 0 12px rgba(45,125,210,0.8);
+    }
+
+    .tl-content {
+      padding-top:2px;
+    }
+    .tl-title {
+      font-family:var(--font-display);
+      font-size:1.3rem; letter-spacing:.1em;
+      color: var(--white-pure);
+      margin-bottom:8px;
+    }
+    .tl-text {
+      font-family:var(--font-serif);
+      font-size:1rem; color:var(--steel); line-height:1.8;
+    }
+    .tl-badge {
+      display:inline-block; margin-top:10px;
+      font-size:.65rem; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--blue-light);
+      border:1px solid rgba(45,125,210,0.3);
+      padding:4px 12px;
+      background:rgba(45,125,210,0.06);
+    }
+
+    /* ============================================================
+       VALEURS — GRILLE HEXAGONALE STYLE MÉCANIQUE
+    ============================================================ */
+    #valeurs { background: var(--dark); }
+    .valeurs-header { text-align:center; margin-bottom:70px; }
+
+    .valeurs-grid {
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:2px;
+      max-width:1100px; margin:0 auto;
+    }
+
+    .valeur-card {
+      background: var(--dark2);
+      border:1px solid rgba(45,125,210,0.1);
+      padding:48px 36px;
+      position:relative; overflow:hidden;
+      transition: background var(--transition), border-color var(--transition), transform var(--transition);
+    }
+    .valeur-card::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0; height:2px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--blue-light), transparent);
+      opacity:0; transition: opacity var(--transition);
+    }
+    .valeur-card::after {
+      content:'';
+      position:absolute; bottom:-60px; right:-60px;
+      width:160px; height:160px;
+      border-radius:50%;
+      background: radial-gradient(circle, rgba(45,125,210,0.06) 0%, transparent 70%);
+      transition: transform .5s ease, opacity .5s ease;
+    }
+    .valeur-card:hover {
+      background: var(--dark3);
+      border-color:rgba(45,125,210,0.35);
+      transform:translateY(-4px);
+    }
+    .valeur-card:hover::before { opacity:1; }
+    .valeur-card:hover::after { transform:scale(2); opacity:1; }
+
+    .valeur-icon-wrap {
+      width:56px; height:56px; margin-bottom:24px;
+      border:1px solid rgba(45,125,210,0.3);
+      background:rgba(45,125,210,0.06);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.6rem;
+      position:relative;
+    }
+    .valeur-icon-wrap::after {
+      content:'';
+      position:absolute; inset:-4px;
+      border:1px solid rgba(45,125,210,0.1);
+    }
+    .valeur-num {
+      font-family:var(--font-display); font-size:.9rem;
+      color:rgba(45,125,210,0.25); letter-spacing:.2em;
+      margin-bottom:8px; display:block;
+    }
+    .valeur-name {
+      font-family:var(--font-display); font-size:1.6rem; letter-spacing:.1em;
+      color:var(--white-pure); margin-bottom:14px;
+    }
+    .valeur-desc {
+      font-family:var(--font-serif); font-size:1rem;
+      color:var(--steel); line-height:1.8;
+    }
+
+    /* ============================================================
+       ÉQUIPE — PROFILS
+    ============================================================ */
+    #equipe { background:var(--black); }
+    .equipe-header { text-align:center; margin-bottom:70px; }
+
+    .equipe-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:24px; max-width:1200px; margin:0 auto;
+    }
+    .membre-card {
+      background:var(--dark2);
+      border:1px solid rgba(45,125,210,0.12);
+      position:relative; overflow:hidden;
+      transition:border-color var(--transition), transform var(--transition);
+    }
+    .membre-card:hover {
+      border-color:rgba(45,125,210,0.4);
+      transform:translateY(-6px);
+    }
+
+    .membre-avatar {
+      width:100%; aspect-ratio:1;
+      background: var(--dark3);
+      display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
+    }
+    .membre-avatar::before {
+      content:'';
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(45,125,210,0.15) 0%, transparent 60%),
+        var(--metal-gradient);
+    }
+    .avatar-initials {
+      font-family:var(--font-display);
+      font-size:4rem; letter-spacing:.15em;
+      background: var(--steel-gradient);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; background-size:200%;
+      animation: shimmer 3s linear infinite;
+      position:relative; z-index:1;
+    }
+    /* Ornements métal sur avatar */
+    .membre-avatar::after {
+      content:'';
+      position:absolute; bottom:0; left:0; right:0; height:3px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--blue-light), var(--blue), transparent);
+    }
+
+    .membre-info { padding:24px 28px 28px; }
+    .membre-name {
+      font-family:var(--font-display); font-size:1.3rem; letter-spacing:.1em;
+      color:var(--white-pure); margin-bottom:4px;
+    }
+    .membre-role {
+      font-size:.7rem; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--blue-light); margin-bottom:14px;
+    }
+    .membre-bio { font-family:var(--font-serif); font-size:.95rem; color:var(--steel); line-height:1.7; }
+    .membre-spec {
+      margin-top:16px; display:flex; flex-wrap:wrap; gap:6px;
+    }
+    .spec-tag {
+      font-size:.63rem; letter-spacing:.2em; text-transform:uppercase;
+      border:1px solid rgba(45,125,210,0.25); padding:4px 10px;
+      color:var(--steel); background:rgba(45,125,210,0.04);
+    }
+
+    /* ============================================================
+       SECTION PHILOSOPHIE — CITATION GRANDE
+    ============================================================ */
+    #philosophie {
+      background: var(--dark2);
+      border-top:1px solid rgba(45,125,210,0.15);
+      border-bottom:1px solid rgba(45,125,210,0.15);
+      text-align:center; padding:120px clamp(16px,8vw,120px);
+      position:relative; overflow:hidden;
+    }
+    #philosophie::before {
+      content:'';
+      position:absolute; left:50%; top:50%;
+      width:600px; height:600px;
+      background: radial-gradient(circle, rgba(45,125,210,0.06) 0%, transparent 65%);
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+    }
+    /* Engrenages décoratifs */
+    .gear-deco {
+      position:absolute; border-radius:50%;
+      border:2px solid rgba(45,125,210,0.07);
+      pointer-events:none;
+    }
+    .gear-deco:nth-child(1) { width:400px; height:400px; top:-100px; left:-100px; animation:rotateSlow 50s linear infinite; }
+    .gear-deco:nth-child(2) { width:250px; height:250px; bottom:-50px; right:-50px; animation:rotateSlow 35s linear infinite reverse; }
+
+    .quote-mark {
+      font-family:var(--font-serif); font-size:8rem; line-height:.6;
+      color:rgba(45,125,210,0.2); margin-bottom:20px; display:block;
+    }
+    .quote-text {
+      font-family:var(--font-serif);
+      font-size:clamp(1.5rem, 3.5vw, 2.8rem);
+      color:var(--chrome); line-height:1.5;
+      font-style:italic; position:relative; z-index:1;
+      max-width:900px; margin:0 auto 32px;
+    }
+    .quote-author {
+      font-size:.75rem; letter-spacing:.5em; text-transform:uppercase;
+      color:var(--blue-light); position:relative; z-index:1;
+    }
+    .quote-line {
+      width:60px; height:1px; margin:0 auto 14px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    /* ============================================================
+       ENGAGEMENTS — BANDE HORIZONTALE
+    ============================================================ */
+    #engagements { background:var(--dark); padding:80px clamp(16px,6vw,100px); }
+    .eng-header { text-align:center; margin-bottom:60px; }
+    .eng-grid {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:2px; max-width:1200px; margin:0 auto;
+    }
+    .eng-item {
+      background:var(--dark2);
+      border:1px solid rgba(45,125,210,0.1);
+      padding:36px 28px; text-align:center;
+      transition:background var(--transition), border-color var(--transition);
+      position:relative;
+    }
+    .eng-item:hover { background:var(--dark3); border-color:rgba(45,125,210,0.3); }
+    .eng-icon { font-size:2rem; margin-bottom:16px; }
+    .eng-title {
+      font-family:var(--font-display); font-size:1.1rem; letter-spacing:.1em;
+      color:var(--white-pure); margin-bottom:8px;
+    }
+    .eng-text { font-size:.85rem; color:var(--steel); line-height:1.6; }
+    /* barre en bas au hover */
+    .eng-item::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity:0; transition: opacity var(--transition);
+    }
+    .eng-item:hover::after { opacity:1; }
+
+    /* ============================================================
+       CTA CONTACT
+    ============================================================ */
+    #cta {
+      background: var(--black);
+      text-align:center; padding:120px clamp(16px,6vw,100px);
+      position:relative; overflow:hidden;
+    }
+    .cta-bg-art {
+      position:absolute; inset:0; z-index:0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(45,125,210,0.07) 0%, transparent 70%),
+        linear-gradient(to bottom, var(--black) 0%, var(--dark2) 50%, var(--black) 100%);
+    }
+    .cta-content { position:relative; z-index:1; }
+    .cta-title {
+      font-family:var(--font-display);
+      font-size:clamp(3rem, 8vw, 7rem);
+      letter-spacing:.08em; line-height:.9;
+      color:var(--white-pure); margin-bottom:24px;
+    }
+    .cta-title em { color:var(--blue-light); font-style:normal; }
+    .cta-sub {
+      font-family:var(--font-serif); font-size:1.2rem; color:var(--steel);
+      margin-bottom:48px; max-width:600px; margin-left:auto; margin-right:auto;
+    }
+    .cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+    .btn-primary {
+      background: var(--blue);
+      color:var(--white-pure);
+      font-family:var(--font-display);
+      font-size:1rem; letter-spacing:.25em;
+      padding:18px 48px;
+      border:1px solid var(--blue);
+      position:relative; overflow:hidden;
+      transition:background var(--transition), box-shadow var(--transition), transform var(--transition);
+      display:inline-flex; align-items:center; gap:12px;
+    }
+    .btn-primary::before {
+      content:''; position:absolute; inset:0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      transform:translateX(-100%); transition:transform .5s ease;
+    }
+    .btn-primary:hover {
+      background:var(--blue-light); box-shadow:var(--shadow-blue);
+      transform:translateY(-2px);
+    }
+    .btn-primary:hover::before { transform:translateX(100%); }
+
+    .btn-secondary {
+      background:transparent;
+      color:var(--blue-light);
+      font-family:var(--font-display);
+      font-size:1rem; letter-spacing:.25em;
+      padding:18px 48px;
+      border:1px solid rgba(45,125,210,0.4);
+      transition:background var(--transition), border-color var(--transition), transform var(--transition);
+    }
+    .btn-secondary:hover {
+      background:rgba(45,125,210,0.1);
+      border-color:var(--blue);
+      transform:translateY(-2px);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background:var(--dark2);
+      border-top:1px solid rgba(45,125,210,0.15);
+      padding:44px clamp(16px,4vw,60px);
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:20px;
+    }
+    .footer-logo {
+      font-family:var(--font-display); font-size:1.5rem; letter-spacing:.25em;
+      background: var(--steel-gradient);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; background-size:200%;
+      animation: shimmer 4s linear infinite;
+    }
+    .footer-copy { font-size:.75rem; color:var(--gray-light); letter-spacing:.1em; }
+    .footer-links { display:flex; gap:24px; }
+    .footer-links a {
+      font-size:.75rem; letter-spacing:.15em; text-transform:uppercase;
+      color:var(--gray-light); transition:color var(--transition);
+    }
+    .footer-links a:hover { color:var(--blue-light); }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    #toast-container { position:fixed; bottom:32px; right:32px; z-index:9500; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
+    .toast { background:var(--dark3); border:1px solid rgba(45,125,210,0.3); border-left:3px solid var(--blue); color:var(--white); padding:14px 22px; font-size:.85rem; min-width:220px; animation:toastIn .35s ease; }
+    .toast.success { border-left-color:var(--green); }
+    .toast.error   { border-left-color:var(--red); }
+    @keyframes toastIn  { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateY(-10px)} }
+
+    /* ============================================================
+       REVEAL
+    ============================================================ */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    .reveal-delay-1 { transition-delay:.12s; }
+    .reveal-delay-2 { transition-delay:.22s; }
+    .reveal-delay-3 { transition-delay:.33s; }
+    .reveal-delay-4 { transition-delay:.44s; }
+    .reveal-left { opacity:0; transform:translateX(-40px); transition:opacity .8s ease, transform .8s ease; }
+    .reveal-left.visible { opacity:1; transform:none; }
+    .reveal-right { opacity:0; transform:translateX(40px); transition:opacity .8s ease, transform .8s ease; }
+    .reveal-right.visible { opacity:1; transform:none; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media(max-width:900px) {
+      #fondation { grid-template-columns:1fr; }
+      .fondation-visual { height:320px; }
+      .valeurs-grid { grid-template-columns:1fr 1fr; }
+      .eng-grid { grid-template-columns:1fr 1fr; }
+      #timeline::before { left:28px; }
+      .tl-entry { grid-template-columns:60px 1fr; }
+      .tl-entry:nth-child(even) .tl-content,
+      .tl-entry:nth-child(odd) .tl-content { grid-column:2; text-align:left; }
+      .tl-entry:nth-child(even) .tl-dot,
+      .tl-entry:nth-child(odd) .tl-dot { grid-column:1; }
+      .tl-empty { display:none; }
+      .nav-links { display:none; }
+      .nav-hamburger { display:flex; }
+    }
+    @media(max-width:600px) {
+      .valeurs-grid { grid-template-columns:1fr; }
+      .eng-grid { grid-template-columns:1fr; }
+      .equipe-grid { grid-template-columns:1fr; }
+      .cta-btns { flex-direction:column; align-items:center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- CURSEUR -->
+<div id="cursor"><div id="cursor-dot"></div><div id="cursor-ring"></div></div>
+<div id="reading-progress"></div>
+
+<!-- LOADER MÉCANIQUE -->
+<div id="loader">
+  <div class="loader-gear-wrap">
+    <div class="loader-gear"></div>
+    <div class="loader-gear-inner"></div>
+  </div>
+  <div class="loader-logo">VX MOTORS</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-text">Notre Histoire — Chargement</div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="VX_MOTORS.html" class="nav-logo">VX<span>MOTORS</span></a>
+  <ul class="nav-links">
+    <li><a href="VX_MOTORS.html">Accueil</a></li>
+    <li><a href="VX_MOTORS.html#vehicles">Collection</a></li>
+    <li><a href="VX_MOTORS.html#services">Services</a></li>
+    <li><a href="VX_MOTORS_APROPOS.html" class="active">À Propos</a></li>
+    <li><a href="VX_MOTORS_CONTACT.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-nav" style="display:none;position:fixed;inset:0;z-index:490;background:rgba(6,8,12,0.97);backdrop-filter:blur(20px);align-items:center;justify-content:center;flex-direction:column;gap:32px;">
+  <a href="VX_MOTORS.html" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:.3em;color:var(--white)">ACCUEIL</a>
+  <a href="VX_MOTORS.html#vehicles" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:.3em;color:var(--white)">COLLECTION</a>
+  <a href="VX_MOTORS.html#services" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:.3em;color:var(--white)">SERVICES</a>
+  <a href="VX_MOTORS_APROPOS.html" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:.3em;color:var(--blue-light)">À PROPOS</a>
+  <a href="VX_MOTORS_CONTACT.html" onclick="closeMobileMenu()" style="font-family:var(--font-display);font-size:2rem;letter-spacing:.3em;color:var(--steel)">CONTACT</a>
+</div>
+
+<!-- ================================================================
+     HERO
+================================================================ -->
+<section id="hero-about">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-circles"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">VX Motors — Depuis 2013 · Alger · Algérie</span>
+
+    <h1 class="hero-title-main">
+      <span class="line-chrome">NOTRE</span><br>
+      <span class="line-white">HIS</span><span class="line-blue">TOIRE</span>
+    </h1>
+
+    <div class="hero-separator"></div>
+
+    <p class="hero-tagline">
+      « L'acier ne ment pas. La précision ne pardonne pas. La passion ne s'éteint jamais. »
+    </p>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Découvrir</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ================================================================
+     STATS
+================================================================ -->
+<div id="stats-band">
+  <div class="stat-item reveal">
+    <div class="stat-num" data-target="850">0+</div>
+    <div class="stat-label">Véhicules Livrés</div>
+    <div class="stat-sub">depuis notre fondation</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <div class="stat-num" data-target="12">0</div>
+    <div class="stat-label">Années d'Expertise</div>
+    <div class="stat-sub">en automobile premium</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <div class="stat-num" data-target="35">0</div>
+    <div class="stat-label">Marques Représentées</div>
+    <div class="stat-sub">des meilleurs constructeurs</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <div class="stat-num">98%</div>
+    <div class="stat-label">Satisfaction Client</div>
+    <div class="stat-sub">mesurée et certifiée</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     FONDATION
+================================================================ -->
+<section id="fondation">
+
+  <div class="fondation-visual reveal-left">
+    <div class="engine-art">
+      <div class="engine-ring"></div>
+      <div class="engine-ring"></div>
+      <div class="engine-ring"></div>
+      <div class="engine-ring"></div>
+      <div class="engine-cross"></div>
+      <!-- Ticks -->
+      <div class="engine-ticks" id="ticks-outer"></div>
+      <div class="engine-center">VX</div>
+    </div>
+  </div>
+
+  <div class="fondation-text reveal-right">
+    <span class="section-tag">Notre Origine</span>
+    <h2 class="section-title">Née d'une<br><span class="accent">Passion</span><br>d'Acier</h2>
+    <div class="metal-line"></div>
+    <p class="section-body">
+      VX Motors est née en 2013 dans les ateliers d'un jeune mécanicien algérois, 
+      Karim Hadj Abderrahmane, dont la passion pour la mécanique de précision 
+      et les moteurs d'exception ne connaissait aucune limite.
+    </p>
+    <br>
+    <p class="section-body">
+      Ce qui a commencé comme un atelier de réparation spécialisé dans les véhicules 
+      européens haut de gamme s'est transformé en une maison de référence pour 
+      l'automobile de luxe en Algérie — alliant rigueur mécanique, service d'exception 
+      et accès aux marques les plus prestigieuses au monde.
+    </p>
+    <br>
+    <p class="section-body">
+      Chaque véhicule que nous présentons est inspecté selon nos protocoles 
+      <em>VX Quality Control</em> — 214 points de contrôle, aucun compromis.
+    </p>
+  </div>
+
+</section>
+
+<!-- ================================================================
+     TIMELINE
+================================================================ -->
+<section id="timeline">
+  <div class="timeline-header reveal">
+    <span class="section-tag">Chronologie</span>
+    <h2 class="section-title">L'<span class="accent">Évolution</span><br>VX Motors</h2>
+    <div class="metal-line" style="margin:24px auto;"></div>
+  </div>
+
+  <div class="timeline-entries">
+
+    <div class="tl-entry reveal">
+      <div class="tl-content">
+        <div class="tl-title">NAISSANCE DE VX MOTORS</div>
+        <p class="tl-text">Karim Hadj Abderrahmane ouvre le premier atelier VX dans le quartier de Bab El Oued à Alger, spécialisé en diagnostics électroniques sur véhicules premium.</p>
+        <span class="tl-badge">Fondation</span>
+      </div>
+      <div class="tl-dot"><div class="tl-year">2013</div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-entry reveal">
+      <div class="tl-empty"></div>
+      <div class="tl-dot"><div class="tl-year">2015</div></div>
+      <div class="tl-content">
+        <div class="tl-title">PREMIER SHOWROOM</div>
+        <p class="tl-text">Ouverture du premier espace d'exposition à Hydra. 12 véhicules à la vente, une équipe de 8 personnes, et une vision claire : démocratiser le luxe automobile en Algérie.</p>
+        <span class="tl-badge">Expansion</span>
+      </div>
+    </div>
+
+    <div class="tl-entry reveal">
+      <div class="tl-content">
+        <div class="tl-title">PARTENARIATS CONSTRUCTEURS</div>
+        <p class="tl-text">VX Motors signe ses premiers accords officiels avec des distributeurs européens. L'accès aux véhicules neufs Porsche, BMW M et Mercedes-AMG devient réalité.</p>
+        <span class="tl-badge">Partenariats</span>
+      </div>
+      <div class="tl-dot"><div class="tl-year">2017</div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-entry reveal">
+      <div class="tl-empty"></div>
+      <div class="tl-dot"><div class="tl-year">2019</div></div>
+      <div class="tl-content">
+        <div class="tl-title">ATELIER CERTIFIÉ</div>
+        <p class="tl-text">L'atelier VX obtient la certification ISO pour ses processus de maintenance et de contrôle. Introduction du protocole <em>VX Quality Control</em> — 214 points d'inspection.</p>
+        <span class="tl-badge">Certification</span>
+      </div>
+    </div>
+
+    <div class="tl-entry reveal">
+      <div class="tl-content">
+        <div class="tl-title">NOUVEAU SIÈGE PREMIUM</div>
+        <p class="tl-text">Inauguration du showroom actuel sur 2 000 m² à Bab Ezzouar — le plus grand espace automobile de luxe d'Algérie. Lounge client, simulateur de conduite, café VX Elite.</p>
+        <span class="tl-badge">Nouveau siège</span>
+      </div>
+      <div class="tl-dot"><div class="tl-year">2021</div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-entry reveal">
+      <div class="tl-empty"></div>
+      <div class="tl-dot"><div class="tl-year">2023</div></div>
+      <div class="tl-content">
+        <div class="tl-title">PROGRAMME VX ELITE</div>
+        <p class="tl-text">Lancement du programme de fidélité VX Elite, accès aux véhicules ultra-luxe (Rolls-Royce, Bentley, Bugatti) et création du département de personnalisation sur-mesure.</p>
+        <span class="tl-badge">Innovation</span>
+      </div>
+    </div>
+
+    <div class="tl-entry reveal">
+      <div class="tl-content">
+        <div class="tl-title">VX MOTORS AUJOURD'HUI</div>
+        <p class="tl-text">850+ véhicules livrés, 35 marques, 60 collaborateurs spécialisés, présence nationale. VX Motors s'affirme comme la première maison de l'automobile de prestige en Algérie.</p>
+        <span class="tl-badge">Leadership</span>
+      </div>
+      <div class="tl-dot"><div class="tl-year">2025</div></div>
+      <div class="tl-empty"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================
+     VALEURS
+================================================================ -->
+<section id="valeurs">
+  <div class="valeurs-header reveal">
+    <span class="section-tag">Ce qui nous définit</span>
+    <h2 class="section-title">Nos <span class="accent">Valeurs</span></h2>
+    <div class="metal-line" style="margin:24px auto;"></div>
+    <p style="font-family:var(--font-serif);font-size:1.1rem;color:var(--steel);max-width:600px;margin:0 auto;">
+      Six piliers qui guident chacune de nos décisions, chaque pièce installée, chaque client accompagné.
+    </p>
+  </div>
+
+  <div class="valeurs-grid">
+    <div class="valeur-card reveal">
+      <div class="valeur-icon-wrap">⚙️</div>
+      <span class="valeur-num">01</span>
+      <div class="valeur-name">PRÉCISION</div>
+      <p class="valeur-desc">Chaque geste de nos techniciens obéit à une rigueur de haute horlogerie. Aucun détail n'est laissé au hasard — c'est notre engagement envers chaque moteur confié.</p>
+    </div>
+    <div class="valeur-card reveal reveal-delay-1">
+      <div class="valeur-icon-wrap">🔩</div>
+      <span class="valeur-num">02</span>
+      <div class="valeur-name">INTÉGRITÉ</div>
+      <p class="valeur-desc">Nous disons ce que nous faisons, nous faisons ce que nous disons. La confiance est la pièce maîtresse de toute relation entre un client et un professionnel de l'automobile.</p>
+    </div>
+    <div class="valeur-card reveal reveal-delay-2">
+      <div class="valeur-icon-wrap">🏎️</div>
+      <span class="valeur-num">03</span>
+      <div class="valeur-name">PASSION</div>
+      <p class="valeur-desc">Nous ne vendons pas des voitures. Nous partageons une passion — celle du moteur, du design, de la vitesse maîtrisée, de l'émotion de conduire quelque chose d'extraordinaire.</p>
+    </div>
+    <div class="valeur-card reveal">
+      <div class="valeur-icon-wrap">💎</div>
+      <span class="valeur-num">04</span>
+      <div class="valeur-name">EXCELLENCE</div>
+      <p class="valeur-desc">La médiocrité n'a pas sa place ici. Du premier contact à la livraison du véhicule, chaque étape de votre expérience VX est conçue pour dépasser vos attentes.</p>
+    </div>
+    <div class="valeur-card reveal reveal-delay-1">
+      <div class="valeur-icon-wrap">🌐</div>
+      <span class="valeur-num">05</span>
+      <div class="valeur-name">INNOVATION</div>
+      <p class="valeur-desc">Diagnostics électroniques de dernière génération, simulateurs de conduite, réalité augmentée pour la personnalisation — nous investissons dans les outils de demain.</p>
+    </div>
+    <div class="valeur-card reveal reveal-delay-2">
+      <div class="valeur-icon-wrap">🤝</div>
+      <span class="valeur-num">06</span>
+      <div class="valeur-name">SERVICE</div>
+      <p class="valeur-desc">Un conseiller dédié, disponible 7j/7. Une assistance sur route. Un programme après-vente complet. Parce que notre relation avec vous commence à la vente, elle ne s'y arrête pas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     PHILOSOPHIE — CITATION
+================================================================ -->
+<section id="philosophie">
+  <div class="gear-deco"></div>
+  <div class="gear-deco"></div>
+  <div class="quote-mark reveal">"</div>
+  <blockquote class="quote-text reveal">
+    Un moteur bien réglé ne ment pas. Un homme de confiance non plus.
+    Chez VX Motors, chaque boulon serré est une promesse tenue,
+    chaque client satisfait est notre meilleure vitrine.
+  </blockquote>
+  <div class="quote-line reveal"></div>
+  <div class="quote-author reveal">— Karim Hadj Abderrahmane, Fondateur de VX Motors</div>
+</section>
+
+<!-- ================================================================
+     ÉQUIPE
+================================================================ -->
+<section id="equipe">
+  <div class="equipe-header reveal">
+    <span class="section-tag">Les Architectes</span>
+    <h2 class="section-title">Notre <span class="accent">Équipe</span></h2>
+    <div class="metal-line" style="margin:24px auto;"></div>
+    <p style="font-family:var(--font-serif);font-size:1.1rem;color:var(--steel);max-width:600px;margin:0 auto;">
+      60 passionnés de mécanique, de commerce et de service client au quotidien.
+    </p>
+  </div>
+
+  <div class="equipe-grid">
+    <div class="membre-card reveal">
+      <div class="membre-avatar"><div class="avatar-initials">KHA</div></div>
+      <div class="membre-info">
+        <div class="membre-name">KARIM H. ABDERRAHMANE</div>
+        <div class="membre-role">Fondateur & Directeur Général</div>
+        <p class="membre-bio">Ingénieur en mécanique automobile, 20 ans d'expérience. Ancien technicien certifié BMW et Mercedes-Benz en Allemagne avant de rentrer en Algérie pour fonder VX.</p>
+        <div class="membre-spec">
+          <span class="spec-tag">Direction</span>
+          <span class="spec-tag">Stratégie</span>
+          <span class="spec-tag">Technique</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="membre-card reveal reveal-delay-1">
+      <div class="membre-avatar"><div class="avatar-initials">SB</div></div>
+      <div class="membre-info">
+        <div class="membre-name">SARAH BENALI</div>
+        <div class="membre-role">Directrice Commerciale</div>
+        <p class="membre-bio">MBA Finance, spécialiste du marché premium algérien. Elle a structuré le réseau de partenaires internationaux et co-développé le programme VX Elite.</p>
+        <div class="membre-spec">
+          <span class="spec-tag">Ventes</span>
+          <span class="spec-tag">Partenariats</span>
+          <span class="spec-tag">Fidélité</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="membre-card reveal reveal-delay-2">
+      <div class="membre-avatar"><div class="avatar-initials">RM</div></div>
+      <div class="membre-info">
+        <div class="membre-name">RIAD MEZIANE</div>
+        <div class="membre-role">Chef d'Atelier Principal</div>
+        <p class="membre-bio">Certifié Porsche, Ferrari et Lamborghini. 15 ans de diagnostics électroniques sur supercars. Architecte du protocole VX Quality Control à 214 points.</p>
+        <div class="membre-spec">
+          <span class="spec-tag">Diagnostic</span>
+          <span class="spec-tag">Certification</span>
+          <span class="spec-tag">Supercar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="membre-card reveal reveal-delay-3">
+      <div class="membre-avatar"><div class="avatar-initials">LK</div></div>
+      <div class="membre-info">
+        <div class="membre-name">LINA KAOUCHE</div>
+        <div class="membre-role">Responsable Expérience Client</div>
+        <p class="membre-bio">Ancienne de l'hôtellerie 5 étoiles, elle a transformé l'expérience d'achat automobile en véritable rituel de luxe. Créatrice du lounge VX et des événements exclusifs.</p>
+        <div class="membre-spec">
+          <span class="spec-tag">Expérience</span>
+          <span class="spec-tag">Événements</span>
+          <span class="spec-tag">Premium</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     ENGAGEMENTS
+================================================================ -->
+<section id="engagements">
+  <div class="eng-header reveal">
+    <span class="section-tag">Nos Promesses</span>
+    <h2 class="section-title">Nos <span class="accent">Engagements</span></h2>
+    <div class="metal-line" style="margin:24px auto;"></div>
+  </div>
+
+  <div class="eng-grid">
+    <div class="eng-item reveal">
+      <div class="eng-icon">🔬</div>
+      <div class="eng-title">214 CONTRÔLES</div>
+      <p class="eng-text">Chaque véhicule de notre stock est inspecté selon notre protocole de 214 points avant toute mise en vente.</p>
+    </div>
+    <div class="eng-item reveal reveal-delay-1">
+      <div class="eng-icon">📜</div>
+      <div class="eng-title">GARANTIE ÉCRITE</div>
+      <p class="eng-text">Tous nos véhicules sont vendus avec une garantie contractuelle. Aucune mauvaise surprise après livraison.</p>
+    </div>
+    <div class="eng-item reveal reveal-delay-2">
+      <div class="eng-icon">🚚</div>
+      <div class="eng-title">LIVRAISON NATIONALE</div>
+      <p class="eng-text">Nous livrons dans toute l'Algérie. Votre véhicule arrive chez vous, prêt à conduire, avec remise de clés officielle.</p>
+    </div>
+    <div class="eng-item reveal reveal-delay-3">
+      <div class="eng-icon">📞</div>
+      <div class="eng-title">SUPPORT 7J/7</div>
+      <p class="eng-text">Un conseiller dédié accessible 7 jours sur 7. Urgence mécanique ? Notre assistance route intervient sous 2h.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     CTA
+================================================================ -->
+<section id="cta">
+  <div class="cta-bg-art"></div>
+  <div class="cta-content">
+    <h2 class="cta-title reveal">VOTRE PROJET<br><em>COMMENCE</em><br>ICI</h2>
+    <p class="cta-sub reveal">Que vous cherchiez votre première voiture de luxe ou un bijou mécanique d'exception, notre équipe est prête à vous accompagner.</p>
+    <div class="cta-btns reveal">
+      <a href="VX_MOTORS_CONTACT.html" class="btn-primary">
+        NOUS CONTACTER →
+      </a>
+      <a href="VX_MOTORS.html#vehicles" class="btn-secondary">
+        VOIR LA COLLECTION
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     FOOTER
+================================================================ -->
+<footer>
+  <div class="footer-logo">VX MOTORS</div>
+  <div class="footer-copy">© 2025 VX Motors Algérie. Tous droits réservés.</div>
+  <div class="footer-links">
+    <a href="#">Confidentialité</a>
+    <a href="#">Mentions légales</a>
+    <a href="VX_MOTORS_CONTACT.html">Contact</a>
+    <a href="VX_MOTORS.html">Accueil</a>
+  </div>
+</footer>
+
+<div id="toast-container"></div>
+
+<!-- ================================================================
+     SCRIPTS
+================================================================ -->
+<script>
+/* CURSEUR */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+  dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px';
+  rx += (e.clientX-rx)*0.16; ry += (e.clientY-ry)*0.16;
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+});
+setInterval(()=>{
+  rx += (parseFloat(dot.style.left||0)-rx)*0.16;
+  ry += (parseFloat(dot.style.top||0)-ry)*0.16;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+},16);
+document.querySelectorAll('a,button,.valeur-card,.membre-card,.eng-item,.tl-entry').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
+
+/* LOADER */
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2000);
+});
+
+/* NAVBAR SCROLL + BARRE PROGRESSION */
+window.addEventListener('scroll',()=>{
+  const el=document.documentElement;
+  const pct=(el.scrollTop/(el.scrollHeight-el.clientHeight))*100;
+  document.getElementById('reading-progress').style.width=pct+'%';
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+
+/* REVEAL AU SCROLL */
+const revealObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>revealObs.observe(el));
+
+/* COMPTEURS ANIMÉS */
+const counterObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el=e.target;
+    const target=parseInt(el.dataset.target);
+    if(!target) return;
+    const dur=1800; let start=null;
+    const suffix = el.textContent.includes('%') ? '%' : '+';
+    function step(ts){
+      if(!start)start=ts;
+      const p=Math.min((ts-start)/dur,1);
+      const ease=1-Math.pow(1-p,3);
+      el.textContent=Math.floor(ease*target)+suffix;
+      if(p<1)requestAnimationFrame(step);
+      else el.textContent=target+suffix;
+    }
+    requestAnimationFrame(step);
+    counterObs.unobserve(el);
+  });
+},{threshold:0.5});
+document.querySelectorAll('.stat-num[data-target]').forEach(el=>counterObs.observe(el));
+
+/* TICKS ENGRENAGE */
+function buildTicks(){
+  const wrap=document.getElementById('ticks-outer');
+  if(!wrap)return;
+  for(let i=0;i<24;i++){
+    const t=document.createElement('div');
+    t.className='tick';
+    t.style.transform=`rotate(${i*(360/24)}deg)`;
+    wrap.appendChild(t);
+  }
+}
+buildTicks();
+
+/* MOBILE MENU */
+function toggleMobileMenu(){
+  const nav=document.getElementById('mobile-nav');
+  nav.style.display=nav.style.display==='flex'?'none':'flex';
+}
+function closeMobileMenu(){
+  document.getElementById('mobile-nav').style.display='none';
+}
+
+/* TOAST */
+function showToast(msg,type=''){
+  const c=document.getElementById('toast-container');
+  const t=document.createElement('div');
+  t.className='toast '+type; t.textContent=msg; c.appendChild(t);
+  setTimeout(()=>{ t.style.animation='toastOut .35s ease forwards'; setTimeout(()=>t.remove(),360); },3500);
+}
+</script>
+
+</body>
+</html>
